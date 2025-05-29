@@ -1,3 +1,19 @@
+# Python/Flask
+backend/venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+backend/.env
+backend/.pytest_cache/
+backend/instance/
+
+# Python Tests
+htmlcov/
+.tox/
+.coverage
+.cache/
+
 # Logs
 logs
 *.log
@@ -34,6 +50,9 @@ bower_components
 
 # node-waf configuration
 .lock-wscript
+
+# Frontend build directories
+frontend/build/
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
@@ -126,6 +145,7 @@ dist
 .tern-port
 
 # Stores VSCode versions used for testing VSCode extensions
+.vscode/
 .vscode-test
 
 # yarn v2
@@ -134,3 +154,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Miscellaneous
+.DS_Store
