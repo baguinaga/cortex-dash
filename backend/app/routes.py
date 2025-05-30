@@ -11,8 +11,26 @@ def login():
 def get_incidents():
     # Return sample data
     sample_data = [
-        {"id": 1, "type": "phishing", "status": "open"},
-        {"id": 2, "type": "malware", "status": "closed"}
+        {
+            "id": 1,
+            "type": "phishing",
+            "status": "open",
+            "severity": "high",
+            "reported_by": "alice@example.com",
+            "date_reported": "2024-05-01",
+            "last_updated": "2024-05-02",
+            "description": "Suspicious email with malicious link."
+        },
+        {
+            "id": 2,
+            "type": "malware",
+            "status": "closed",
+            "severity": "critical",
+            "reported_by": "bob@example.com",
+            "date_reported": "2024-04-28",
+            "last_updated": "2024-04-29",
+            "description": "Ransomware detected on workstation."
+        }
     ]
     return jsonify(sample_data), 200
 
