@@ -26,15 +26,18 @@ export default function Navbar() {
     availableThemes.find((t) => t.id === currentThemeId) || availableThemes[0];
 
   return (
-    <nav className='flex items-center h-14 px-4 sm:px-6 bg-background border-b border-border shrink-0'>
+    <nav className='bg-background border-b border-border flex items-center h-20 px-4 sm:px-6 shrink-0'>
       <div className='flex items-center gap-4'>
-        <h1 className='text-lg font-semibold text-foreground hidden sm:block'>
+        <h1 className='text-foreground text-2xl font-semibold hidden sm:block'>
           CortexDash
         </h1>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='w-[200px] justify-between'>
+            <Button
+              variant='outline'
+              className='bg-foreground text-black w-[200px] justify-between'
+            >
               {currentTheme.name}
               <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
             </Button>
@@ -58,7 +61,7 @@ export default function Navbar() {
       </div>
 
       <div className='ml-auto'>
-        <span className='text-sm text-muted-foreground'>
+        <span className='text-muted-foreground text-md'>
           Analytics Platform
         </span>
       </div>

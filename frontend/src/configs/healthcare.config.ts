@@ -1,4 +1,5 @@
 import { DashboardConfig } from "@/lib/types";
+import { generateDashboardTheme } from "@/lib/theme-generator";
 
 export const dashboardConfig: DashboardConfig = {
   id: "healthcare",
@@ -71,27 +72,18 @@ export const dashboardConfig: DashboardConfig = {
       { accessorKey: "lastVisit", header: "Last Visit" },
     ],
   },
-  colors: {
-    // Navbar - Deep professional blue
-    "--background": "hsl(210, 40%, 20%)", // Dark blue-grey
-    "--foreground": "hsl(0, 0%, 98%)", // Almost white
-    "--border": "hsl(210, 30%, 25%)", // Slightly lighter blue-grey
-    "--muted-foreground": "hsl(210, 10%, 75%)", // Light grey for flavor text
-
-    // Sidebar - Soft blue-grey with good contrast
-    "--sidebar": "hsl(210, 20%, 95%)", // Very light blue-grey background
-    "--sidebar-foreground": "hsl(210, 40%, 25%)", // Dark blue-grey text
-    "--sidebar-primary-foreground": "hsl(210, 50%, 20%)", // Darker blue for headers
-    "--sidebar-accent": "hsl(210, 30%, 85%)", // Light blue for active items
-    "--sidebar-accent-foreground": "hsl(210, 50%, 20%)", // Dark blue for active text
-    "--sidebar-border": "hsl(210, 20%, 85%)", // Subtle border
-
-    // Main content area - Clean whites and soft blues
-    "--card": "hsl(0, 0%, 100%)", // Pure white cards
-    "--card-foreground": "hsl(210, 20%, 15%)", // Dark text for readability
-    "--primary": "hsl(195, 75%, 45%)", // Healthcare teal
-    "--primary-foreground": "hsl(0, 0%, 98%)", // White text on primary
-    "--secondary": "hsl(210, 15%, 90%)", // Light grey secondary
-    "--secondary-foreground": "hsl(210, 30%, 20%)", // Dark text on secondary
-  },
+  colors: generateDashboardTheme({
+    navbar: {
+      background: { hue: 220, chroma: 0.05 }, // Dark, cool blue-gray
+      foreground: { hue: 220, chroma: 0.01 }, // Off-white
+    },
+    sidebar: {
+      background: { hue: 220, chroma: 0.02 }, // Lighter gray
+      brand: { hue: 210, chroma: 0.12 }, // Professional Blue
+    },
+    main: {
+      background: { hue: 0, chroma: 0 }, // Pure White
+      accent: { hue: 210, chroma: 0.12 }, // Professional Blue
+    },
+  }),
 };

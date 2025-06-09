@@ -104,15 +104,15 @@ export default async function DashboardPage({
       <ThemeManager config={config} />
       <div className='flex flex-1 overflow-hidden h-full'>
         <Sidebar config={config} themeId={theme} />
-        <main className='flex-1 overflow-y-auto bg-background'>
-          <div className='container mx-auto py-10'>
+        <main className='bg-card flex-1 overflow-y-auto'>
+          <div className='container mx-10 py-10'>
             {sectionsToRender.length > 0 ? (
               sectionsToRender.map((section) => (
                 <div key={section.id} id={section.id} className='mb-12'>
-                  <h2 className='text-2xl font-bold tracking-tight text-card-foreground'>
+                  <h2 className='text-black text-2xl font-bold tracking-tight'>
                     {section.title ?? "Overview"}
                   </h2>
-                  <div className='mt-6 text-muted-foreground'>
+                  <div className='text-black mt-6'>
                     <p>
                       Rendering component type:{" "}
                       <strong>
@@ -127,10 +127,10 @@ export default async function DashboardPage({
               ))
             ) : (
               <div className='text-center py-20'>
-                <h2 className='text-xl font-semibold text-card-foreground'>
+                <h2 className='text-black text-xl font-semibold'>
                   View Not Found
                 </h2>
-                <p className='text-muted-foreground mt-2'>
+                <p className='text-black mt-2'>
                   The view &quot;{currentView}&quot; does not exist for this
                   dashboard.
                   <br />

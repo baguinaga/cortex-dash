@@ -24,7 +24,7 @@ export default function Sidebar({ config, themeId }: SidebarProps) {
     <aside className='bg-sidebar border-r border-sidebar-border w-56 h-full shrink-0'>
       <div className='p-4'>
         <h2
-          className='px-3 py-2 text-lg font-semibold tracking-tight text-sidebar-primary-foreground leading-tight'
+          className='text-sidebar-primary-foreground px-3 py-2 text-lg font-semibold tracking-tight leading-tight'
           title={config.title}
         >
           {config.title}
