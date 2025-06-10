@@ -1,20 +1,23 @@
 import { DashboardConfig, HealthcareApiEndpoints } from "@/lib/types";
 import { generateDashboardTheme } from "@/lib/theme-generator";
 
+const apiEndpoints: HealthcareApiEndpoints = {
+  metrics: "/api/healthcare/metrics",
+  dailyTrends: "/api/healthcare/daily_trends",
+  patientTable: "/api/healthcare/patients",
+  atRiskAlerts: "/api/healthcare/at_risk_alerts",
+};
+
 export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
   id: "healthcare",
   title: "Healthcare Operations Dashboard",
   description: "Metrics in Generic Healthcare App",
-  apiEndpoints: {
-    metrics: "/api/healthcare/metrics",
-    dailyTrends: "/api/healthcare/daily_trends",
-    patientTable: "/api/healthcare/patients",
-    atRiskAlerts: "/api/healthcare/at_risk_alerts",
-  },
+  apiEndpoints,
   layout: [
     {
-      id: "overview",
+      id: "metrics-section",
       gridCols: 4,
+      endpoint: apiEndpoints.metrics,
       components: [
         { type: "metricDisplay", metricId: "total-patients" },
         { type: "metricDisplay", metricId: "avg-wait-time" },
@@ -26,19 +29,37 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       id: "daily-trends-section",
       title: "Daily Trends",
       gridCols: 1,
-      components: [{ type: "chartDisplay", chartId: "daily-visits" }],
+      components: [
+        {
+          type: "chartDisplay",
+          chartId: "daily-visits",
+          endpoint: apiEndpoints.dailyTrends,
+        },
+      ],
     },
     {
       id: "patient-table-section",
       title: "Patient Data",
       gridCols: 1,
-      components: [{ type: "tableDisplay", tableId: "patient-details" }],
+      components: [
+        {
+          type: "tableDisplay",
+          tableId: "patient-details",
+          endpoint: apiEndpoints.patientTable,
+        },
+      ],
     },
     {
       id: "alerts-section",
       title: "At-Risk Patient Alerts",
       gridCols: 1,
-      components: [{ type: "alertPanel", alertId: "at-risk-patients" }],
+      components: [
+        {
+          type: "alertPanel",
+          alertId: "at-risk-patients",
+          endpoint: apiEndpoints.atRiskAlerts,
+        },
+      ],
     },
   ],
   metrics: [
@@ -57,7 +78,6 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       id: "daily-visits",
       title: "Daily Patient Visits",
       type: "line",
-      endpoint: "/api/healthcare/daily_trends",
       dataKey: "visits",
       xAxisKey: "date",
     },
