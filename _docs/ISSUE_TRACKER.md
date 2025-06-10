@@ -36,6 +36,14 @@
 - **Current Implementation:** Simple redirect from `/` to `/dashboard/pharmacy` in `frontend/src/app/page.tsx`
 - **Scope:** Expand to handle more redirect scenarios and edge cases, can be coupled with ISSUE-001.
 
+## ISSUE-008: Unified 404 page
+
+- **Status:** Post-MVP
+- **Priority:** Low
+- **Description:** Create a unified 404 page layout that is consitent app wide, allows for unified branding.
+- **Current Implementation:** Handling only a limited number of misdirect cases.
+- **Scope:** Couple with changes for ISSUE-001 and ISSUE-003 as a unified feature.
+
 ---
 
 ## Architectural Debt

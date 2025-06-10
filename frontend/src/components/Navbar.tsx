@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { GithubLogo } from "./icons/GithubLogo";
 import { ChevronsUpDown } from "lucide-react";
 
 // TODO: Create an automated script/function to load availabel configs, Post MVP
@@ -29,7 +30,7 @@ export default function Navbar() {
 
   return (
     <nav className='bg-background border-b border-border flex items-center h-20 px-4 sm:px-6 shrink-0'>
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-8'>
         <h1 className='text-foreground text-2xl font-semibold hidden sm:block'>
           CortexDash
         </h1>
@@ -61,11 +62,17 @@ export default function Navbar() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-
-      <div className='ml-auto'>
-        <span className='text-muted-foreground text-md'>
-          Analytics Platform
-        </span>
+      <div className='flex ml-auto'>
+        <a
+          href='https://github.com/baguinaga/Cortex-Dash'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Button variant='outline' size='sm'>
+            <GithubLogo className='h-4 w-4' />
+            GitHub Repository
+          </Button>
+        </a>
       </div>
     </nav>
   );

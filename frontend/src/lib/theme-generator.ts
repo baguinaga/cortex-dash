@@ -83,6 +83,7 @@ export function generateDashboardTheme(
   );
 
   return {
+    //TODO: allow for a dark-mode definition
     // Nav
     "--background": navbarBgScale[8], // Dark shade for the background
     "--foreground": navbarFgScale[1], // Light shade for text

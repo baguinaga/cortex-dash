@@ -68,8 +68,8 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
       foreground: { hue: 220, chroma: 0.01 },
     },
     sidebar: {
-      background: { hue: 220, chroma: 0.1 },
-      brand: { hue: 210, chroma: 0.12 },
+      background: { hue: 200, chroma: 0.1 },
+      brand: { hue: 200, chroma: 0.15 },
     },
     main: {
       background: { hue: 0, chroma: 0 },
