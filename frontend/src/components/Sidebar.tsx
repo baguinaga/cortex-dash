@@ -6,12 +6,15 @@ import { DashboardConfig } from "@/lib/types";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-interface SidebarProps {
-  config: DashboardConfig;
+interface SidebarProps<TEndpoints> {
+  config: DashboardConfig<TEndpoints>;
   themeId: string;
 }
 
-export default function Sidebar({ config, themeId }: SidebarProps) {
+export default function Sidebar<TEndpoints>({
+  config,
+  themeId,
+}: SidebarProps<TEndpoints>) {
   const searchParams = useSearchParams();
   const currentView = searchParams.get("view");
 

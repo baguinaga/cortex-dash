@@ -14,7 +14,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronsUpDown } from "lucide-react";
 
+// TODO: Create an automated script/function to load availabel configs, Post MVP
 const availableThemes = [
+  { id: "pharmacy", name: "Pharmacy Ops" },
   { id: "healthcare", name: "Healthcare Ops" },
   { id: "security", name: "Security Analysis (WIP)", disabled: true },
 ];

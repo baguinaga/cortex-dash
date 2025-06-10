@@ -1,19 +1,21 @@
-import { DashboardConfig, HealthcareApiEndpoints } from "@/lib/types";
+import { DashboardConfig, PharmacyApiEndpoints } from "@/lib/types";
 import { generateDashboardTheme } from "@/lib/theme-generator";
 
-export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
-  id: "healthcare",
-  title: "Healthcare Operations Dashboard",
-  description: "Metrics in Generic Healthcare App",
+export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
+  id: "pharmacy",
+  title: "Pharmacy Operations Dashboard",
+  description: "Metrics in Generic Pharmacy App",
   apiEndpoints: {
-    metrics: "/api/healthcare/metrics",
-    dailyTrends: "/api/healthcare/daily_trends",
-    patientTable: "/api/healthcare/patients",
-    atRiskAlerts: "/api/healthcare/at_risk_alerts",
+    kpis: "/api/pharmacy/kpis",
+    revenue: "/api/pharmacy/revenue_trends",
+    drugsRevenue: "/api/pharmacy/drugs_by_revenue",
+    recentScripts: "/api/pharmacy/recent_scripts",
+    notifications: "/api/pharmacy/notifications",
   },
   layout: [
     {
       id: "metrics-section",
+      title: "Metrics",
       gridCols: 4,
       components: [
         { type: "metricDisplay", metricId: "total-patients" },
@@ -23,22 +25,10 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       ],
     },
     {
-      id: "daily-trends-section",
-      title: "Daily Trends",
+      id: "Operational-section",
+      title: "Operations",
       gridCols: 1,
       components: [{ type: "chartDisplay", chartId: "daily-visits" }],
-    },
-    {
-      id: "patient-table-section",
-      title: "Patient Data",
-      gridCols: 1,
-      components: [{ type: "tableDisplay", tableId: "patient-details" }],
-    },
-    {
-      id: "alerts-section",
-      title: "At-Risk Patient Alerts",
-      gridCols: 1,
-      components: [{ type: "alertPanel", alertId: "at-risk-patients" }],
     },
   ],
   metrics: [
@@ -57,7 +47,7 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       id: "daily-visits",
       title: "Daily Patient Visits",
       type: "line",
-      endpoint: "/api/healthcare/daily_trends",
+      endpoint: "/api/pharmacy/daily_trends",
       dataKey: "visits",
       xAxisKey: "date",
     },
@@ -74,16 +64,16 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
   },
   colors: generateDashboardTheme({
     navbar: {
-      background: { hue: 220, chroma: 0.05 }, // Dark, cool blue-gray
-      foreground: { hue: 220, chroma: 0.01 }, // Off-white
+      background: { hue: 200, chroma: 0.5 },
+      foreground: { hue: 220, chroma: 0.01 },
     },
     sidebar: {
-      background: { hue: 220, chroma: 0.02 }, // Lighter gray
-      brand: { hue: 210, chroma: 0.12 }, // Professional Blue
+      background: { hue: 220, chroma: 0.1 },
+      brand: { hue: 210, chroma: 0.12 },
     },
     main: {
-      background: { hue: 0, chroma: 0 }, // Pure White
-      accent: { hue: 210, chroma: 0.12 }, // Professional Blue
+      background: { hue: 0, chroma: 0 },
+      accent: { hue: 210, chroma: 0.12 },
     },
   }),
 };

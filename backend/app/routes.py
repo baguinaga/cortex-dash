@@ -2,6 +2,8 @@ from flask import Blueprint, jsonify
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
+# ----- Healthcare Mock Data -----
+
 # Healthcare metrics data - aligned with frontend config expectations
 MOCK_HEALTHCARE_METRICS = {
     "total-patients": {"value": "1,234", "unit": ""},
@@ -58,6 +60,53 @@ MOCK_AT_RISK_ALERTS = [
     }
 ]
 
+# ----- Pharmacy Mock Data -----
+
+MOCK_PHARMACY_KPIS = {
+    "totalRevenue": {"value": 750000, "unit": "USD"},
+    "avgTurnAroundTime": {"value": 2.5, "unit": "hours"},
+    "patientAdherencePDC": {"value": 89, "unit": "%"},
+    "scriptsFilled": {"value": 1240, "unit": ""}
+}
+
+MOCK_REVENUE_TRENDS = [
+    {"date": "2025-05-01", "revenue": 180000},
+    {"date": "2025-05-08", "revenue": 210000},
+    {"date": "2025-05-15", "revenue": 195000},
+    {"date": "2025-05-22", "revenue": 230000},
+    {"date": "2025-05-29", "revenue": 250000}
+]
+
+MOCK_TOP_DRUGS_BY_REVENUE = [
+    {"drugName": "Adalimumab", "revenue": 150000},
+    {"drugName": "Pembrolizumab", "revenue": 120000},
+    {"drugName": "Apixaban", "revenue": 95000},
+    {"drugName": "Etanercept", "revenue": 80000},
+    {"drugName": "Rituximab", "revenue": 65000}
+]
+
+MOCK_RECENT_SCRIPTS = [
+    {"scriptId": "RX78901", "drugName": "Infliximab", "patientName": "John Doe", "prescriber": "Dr. Smith", "fillDate": "2025-05-15", "status": "Awaiting Patient Pickup", "revenue": 4500},
+    {"scriptId": "RX78902", "drugName": "Trastuzumab", "patientName": "Jane Roe", "prescriber": "Dr. Jones", "fillDate": "2025-05-15", "status": "Filled", "revenue": 8200},
+    {"scriptId": "RX78903", "drugName": "Lenalidomide", "patientName": "Peter Pan", "prescriber": "Dr. Ahab", "fillDate": "2025-05-14", "status": "Pending Insurance", "revenue": 6700},
+    {"scriptId": "RX78904", "drugName": "Ibrutinib", "patientName": "Mary Poppins", "prescriber": "Dr. Smith", "fillDate": "2025-05-14", "status": "Filled", "revenue": 7100},
+    {"scriptId": "RX78905", "drugName": "Glatiramer Acetate", "patientName": "James Kirk", "prescriber": "Dr. McCoy", "fillDate": "2025-05-13", "status": "Canceled", "revenue": 0},
+    {"scriptId": "RX78906", "drugName": "Adalimumab", "patientName": "Jean-Luc Picard", "prescriber": "Dr. Crusher", "fillDate": "2025-05-16", "status": "Awaiting Patient Pickup", "revenue": 5200},
+]
+
+# Notifications are derived from scripts that require attention
+MOCK_NOTIFICATIONS = [
+    {
+        "id": f"notif-{script['scriptId']}",
+        "patientName": script['patientName'],
+        "riskLevel": "medium",
+        "reason": f"Script {script['scriptId']} ({script['drugName']}) is awaiting patient pickup."
+    }
+    for script in MOCK_RECENT_SCRIPTS if script["status"] == "Awaiting Patient Pickup"
+]
+
+# ----- Healthcare API endpoints -----
+
 @api_bp.route('/healthcare/metrics', methods=['GET'])
 def get_healthcare_metrics():
     """Get healthcare metrics data matching frontend config structure"""
@@ -76,4 +125,35 @@ def get_healthcare_patients():
 @api_bp.route('/healthcare/at_risk_alerts', methods=['GET'])
 def get_healthcare_at_risk_alerts():
     """Get at-risk patient alerts matching frontend alert panel expectations"""
-    return jsonify(MOCK_AT_RISK_ALERTS)   
+    return jsonify(MOCK_AT_RISK_ALERTS)
+
+# ----- Pharmacy API endpoints -----
+
+@api_bp.route('/pharmacy/kpis', methods=['GET'])
+def get_pharmacy_kpis():
+    """Get pharmacy KPI data"""
+    return jsonify(MOCK_PHARMACY_KPIS)
+
+@api_bp.route('/pharmacy/revenue_trends', methods=['GET'])
+def get_pharmacy_revenue_trends():
+    """Get revenue trends for charts"""
+    return jsonify(MOCK_REVENUE_TRENDS)
+
+@api_bp.route('/pharmacy/drugs_by_revenue', methods=['GET'])
+def get_drugs_by_revenue():
+    """Get top drugs sorted by revenue"""
+    return jsonify(MOCK_TOP_DRUGS_BY_REVENUE)
+
+@api_bp.route('/pharmacy/recent_scripts', methods=['GET'])
+def get_pharmacy_recent_scripts():
+    """Get recently submitted scripts"""
+    return jsonify(MOCK_RECENT_SCRIPTS) 
+
+# TODO:A future '/script_details/<id>' endpoint would be used for drill-downs.
+# @api_bp.route('/pharmacy/script_details/<id>', methods=['GET'])
+# def get_pharmacy_script_status():
+
+@api_bp.route('/pharmacy/notifications', methods=['GET'])
+def get_pharmacy_alerts():
+    """Get new script notifications"""
+    return jsonify(MOCK_NOTIFICATIONS)

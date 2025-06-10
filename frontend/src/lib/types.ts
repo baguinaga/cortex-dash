@@ -69,18 +69,27 @@ export interface ThemeColors {
   "--secondary-foreground"?: string;
 }
 
-export interface DashboardConfig {
+export interface HealthcareApiEndpoints {
+  metrics: string;
+  dailyTrends: string;
+  patientTable: string;
+  atRiskAlerts: string;
+}
+export interface PharmacyApiEndpoints {
+  kpis: string;
+  revenue: string;
+  drugsRevenue: string;
+  recentScripts: string;
+  notifications: string;
+}
+
+export interface DashboardConfig<TEndpoints> {
   id: string;
   title: string;
   description?: string;
   apiBaseUrl?: string;
 
-  apiEndpoints: {
-    metrics: string;
-    dailyTrends?: string;
-    patientTable?: string;
-    atRiskAlerts?: string;
-  };
+  apiEndpoints: TEndpoints;
 
   layout: DashboardSection[];
 

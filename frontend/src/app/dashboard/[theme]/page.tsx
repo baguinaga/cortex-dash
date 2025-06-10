@@ -16,7 +16,9 @@ interface DashboardPageProps {
  * @returns Promise<DashboardConfig> - The validated configuration
  * @throws Calls notFound() if config cannot be loaded or is invalid
  */
-async function getDashboardConfig(theme: string): Promise<DashboardConfig> {
+async function getDashboardConfig<TEndpoints>(
+  theme: string
+): Promise<DashboardConfig<TEndpoints>> {
   // Validate theme parameter
   if (!theme || typeof theme !== "string" || theme.trim() === "") {
     console.error("Invalid theme parameter:", theme);
@@ -52,7 +54,7 @@ async function getDashboardConfig(theme: string): Promise<DashboardConfig> {
     }
 
     // Type assertion after validation
-    const validatedConfig = config as DashboardConfig;
+    const validatedConfig = config as DashboardConfig<TEndpoints>;
 
     // Additional runtime validation for critical properties
     if (

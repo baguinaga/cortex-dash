@@ -97,6 +97,7 @@ export function generateDashboardTheme(
     "--sidebar-accent-foreground": sidebarBrandScale[9], // Dark brand text on active items
     "--sidebar-border": sidebarBgScale[3], // Subtle border color
 
+    //TODO: Consider an off-white background usecase, current code forces --card variable to white.
     // Main Content Area
     "--card": mainBgScale[0], // Lightest shade (white/off-white) for cards
     "--card-foreground": mainBgScale[9], // Darkest shade for text

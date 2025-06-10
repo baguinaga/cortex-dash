@@ -68,7 +68,7 @@ web_modules/
 *.tsbuildinfo
 
 # Internal documents
-docs/_internal_docs/*
+_docs/_internal_docs/*
 
 # Optional npm cache directory
 .npm
