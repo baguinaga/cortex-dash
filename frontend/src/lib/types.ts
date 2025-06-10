@@ -12,7 +12,6 @@ export interface ChartConfig {
   title: string;
   description?: string;
   type: "bar" | "line" | "area";
-  endpoint: string;
   dataKey: string;
   xAxisKey: string;
 }
@@ -37,11 +36,12 @@ export interface DashboardSection {
   id: string;
   title?: string;
   gridCols?: number;
+  endpoint?: string;
   components: Array<
-    | { type: "metricDisplay"; metricId: string }
-    | { type: "chartDisplay"; chartId: string }
-    | { type: "tableDisplay"; tableId: string }
-    | { type: "alertPanel"; alertId: string }
+    | { type: "metricDisplay"; metricId: string; endpoint?: string }
+    | { type: "chartDisplay"; chartId: string; endpoint?: string }
+    | { type: "tableDisplay"; tableId: string; endpoint?: string }
+    | { type: "alertPanel"; alertId: string; endpoint?: string }
   >;
 }
 

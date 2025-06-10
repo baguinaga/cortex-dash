@@ -13,7 +13,7 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
   },
   layout: [
     {
-      id: "metrics-section",
+      id: "overview",
       gridCols: 4,
       components: [
         { type: "metricDisplay", metricId: "total-patients" },

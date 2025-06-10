@@ -139,6 +139,15 @@ async function getDashboardConfig(theme: string): Promise<DashboardConfig> {
 - **Shadcn/ui Integration:** The project adopted the Shadcn/ui pattern, vending UI components directly from the local codebase. This provides full control and ensures they can be styled to consume the dynamic CSS theme variables.
 - **Layout Standardization:** The core application layout (`Navbar`, `Sidebar`, content area) is standardized using modern CSS to ensure consistent viewport management across all dashboard themes.
 
+### 3.4. Resilient Component-Level Data Fetching
+
+To create a robust and performant user experience, the application deliberately avoids a monolithic, page-level data fetch. Instead, it employs a component-level data fetching strategy.
+
+- **Smart Wrapper Components:** Each component type defined in the configuration (e.g., `metricDisplay`) has a corresponding "smart" wrapper component (e.g., `MetricDisplayWrapper`). This wrapper's sole responsibility is to manage the asynchronous lifecycle for that single component.
+- **Independent Data Lifecycle:** The wrapper handles its own data fetching, loading, and error states. This ensures that a slow or failed API call for one component does not block the rendering of any other component on the page.
+- **Graceful State Display:** While loading, wrappers render a `Skeleton` placeholder. If an error occurs (either in the network request or due to a configuration issue), they render a descriptive `ConfigErrorCard` in their place. This provides immediate, contextual feedback without crashing the application.
+- **Centralized Rendering Logic:** A central `DashboardSectionRenderer` component interprets the dashboard config, determines which wrapper to render, and passes the necessary props (e.g., `endpoint`, `metricId`). This separates the "what" of the config from the "how" of the rendering logic.
+
 ## 4. Execution Plan: Phase 2
 
 With a solid architectural foundation in place, the project is moving into a structured implementation phase with a strategically targeted MVP.

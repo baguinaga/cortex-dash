@@ -2,6 +2,7 @@ import { DashboardConfig } from "@/lib/types";
 import { notFound } from "next/navigation";
 import ThemeManager from "@/components/ThemeManager";
 import Sidebar from "@/components/Sidebar";
+import DashboardSectionRenderer from "@/components/dashboard/DashboardSectionRenderer";
 
 interface DashboardPageProps {
   params: Promise<{
@@ -35,11 +36,8 @@ async function getDashboardConfig<TEndpoints>(
   try {
     // Dynamically import the config module
     const configModule = await import(`@/configs/${sanitizedTheme}.config.ts`);
-
-    // Extract the config with the correct export name
     const config = configModule.dashboardConfig;
 
-    // Validate the config exists and has required properties
     if (!config || typeof config !== "object") {
       throw new Error(
         `Config not found or invalid in ${sanitizedTheme}.config.ts`
@@ -56,7 +54,6 @@ async function getDashboardConfig<TEndpoints>(
     // Type assertion after validation
     const validatedConfig = config as DashboardConfig<TEndpoints>;
 
-    // Additional runtime validation for critical properties
     if (
       typeof validatedConfig.id !== "string" ||
       typeof validatedConfig.title !== "string" ||
@@ -78,11 +75,10 @@ async function getDashboardConfig<TEndpoints>(
   }
 }
 
-export default async function DashboardPage({
+export default async function DashboardPage<TEndpoints>({
   params,
   searchParams,
 }: DashboardPageProps) {
-  // Safely extract params with error handling
   let theme: string;
   try {
     const resolvedParams = await params;
@@ -92,7 +88,7 @@ export default async function DashboardPage({
     return notFound();
   }
 
-  const config = await getDashboardConfig(theme);
+  const config = await getDashboardConfig<TEndpoints>(theme);
   const resolvedSearchParams = await searchParams;
   const currentView = resolvedSearchParams.view as string | undefined;
 
@@ -111,20 +107,11 @@ export default async function DashboardPage({
             {sectionsToRender.length > 0 ? (
               sectionsToRender.map((section) => (
                 <div key={section.id} id={section.id} className='mb-12'>
+                  {/* TODO: Handle the negative case with a component */}
                   <h2 className='text-black text-2xl font-bold tracking-tight'>
                     {section.title ?? "Overview"}
                   </h2>
-                  <div className='text-black mt-6'>
-                    <p>
-                      Rendering component type:{" "}
-                      <strong>
-                        {section.components[0]?.type || "unknown"}
-                      </strong>
-                    </p>
-                    <p className='mt-2'>
-                      Full component implementation will occur in Phase 2.
-                    </p>
-                  </div>
+                  <DashboardSectionRenderer section={section} config={config} />
                 </div>
               ))
             ) : (

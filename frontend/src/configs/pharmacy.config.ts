@@ -1,65 +1,107 @@
 import { DashboardConfig, PharmacyApiEndpoints } from "@/lib/types";
 import { generateDashboardTheme } from "@/lib/theme-generator";
 
+const apiEndpoints: PharmacyApiEndpoints = {
+  kpis: "/api/pharmacy/kpis",
+  revenue: "/api/pharmacy/revenue_trends",
+  drugsRevenue: "/api/pharmacy/drugs_by_revenue",
+  recentScripts: "/api/pharmacy/recent_scripts",
+  notifications: "/api/pharmacy/notifications",
+};
+
 export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
   id: "pharmacy",
   title: "Pharmacy Operations Dashboard",
   description: "Metrics in Generic Pharmacy App",
-  apiEndpoints: {
-    kpis: "/api/pharmacy/kpis",
-    revenue: "/api/pharmacy/revenue_trends",
-    drugsRevenue: "/api/pharmacy/drugs_by_revenue",
-    recentScripts: "/api/pharmacy/recent_scripts",
-    notifications: "/api/pharmacy/notifications",
-  },
+  apiEndpoints,
   layout: [
     {
-      id: "metrics-section",
-      title: "Metrics",
+      id: "overview",
       gridCols: 4,
+      endpoint: apiEndpoints.kpis,
       components: [
-        { type: "metricDisplay", metricId: "total-patients" },
-        { type: "metricDisplay", metricId: "avg-wait-time" },
-        { type: "metricDisplay", metricId: "er-visits" },
-        { type: "metricDisplay", metricId: "patient-satisfaction" },
+        { type: "metricDisplay", metricId: "totalRevenue" },
+        { type: "metricDisplay", metricId: "avgTurnAroundTime" },
+        { type: "metricDisplay", metricId: "scriptsFilled" },
+        { type: "metricDisplay", metricId: "patientAdherencePDC" },
       ],
     },
     {
-      id: "Operational-section",
-      title: "Operations",
+      id: "operations",
+      title: "Script Management",
       gridCols: 1,
-      components: [{ type: "chartDisplay", chartId: "daily-visits" }],
+      components: [
+        {
+          type: "tableDisplay",
+          tableId: "recent-scripts",
+          endpoint: apiEndpoints.recentScripts,
+        },
+        {
+          type: "alertPanel",
+          alertId: "new-notifications",
+          endpoint: apiEndpoints.notifications,
+        },
+      ],
+    },
+    {
+      id: "analytics",
+      title: "Revenue Analytics",
+      gridCols: 2,
+      components: [
+        {
+          type: "chartDisplay",
+          chartId: "revenue-trends",
+          endpoint: apiEndpoints.revenue,
+        },
+        {
+          type: "chartDisplay",
+          chartId: "top-drugs",
+          endpoint: apiEndpoints.drugsRevenue,
+        },
+      ],
     },
   ],
   metrics: [
-    { id: "total-patients", title: "Total Patients", value: "1,234", unit: "" },
-    { id: "avg-wait-time", title: "Avg. Wait Time", value: "25", unit: "min" },
-    { id: "er-visits", title: "ER Visits Today", value: "320", unit: "" },
+    { id: "totalRevenue", title: "Total Revenue", value: "", unit: "USD" },
     {
-      id: "patient-satisfaction",
-      title: "Patient Satisfaction",
-      value: "92",
+      id: "avgTurnAroundTime",
+      title: "Avg. Turnaround",
+      value: "",
+      unit: "hours",
+    },
+    { id: "scriptsFilled", title: "Scripts Filled", value: "", unit: "" },
+    {
+      id: "patientAdherencePDC",
+      title: "Patient Adherence (PDC)",
+      value: "",
       unit: "%",
     },
   ],
   charts: [
     {
-      id: "daily-visits",
-      title: "Daily Patient Visits",
+      id: "revenue-trends",
+      title: "Weekly Revenue",
       type: "line",
-      endpoint: "/api/pharmacy/daily_trends",
-      dataKey: "visits",
+      dataKey: "revenue",
       xAxisKey: "date",
+    },
+    {
+      id: "top-drugs",
+      title: "Top Drugs by Revenue",
+      type: "bar",
+      dataKey: "revenue",
+      xAxisKey: "drugName",
     },
   ],
   mainTable: {
-    id: "patient-details",
+    id: "recent-scripts",
     columns: [
-      { accessorKey: "patientId", header: "Patient ID" },
-      { accessorKey: "name", header: "Name" },
-      { accessorKey: "age", header: "Age" },
-      { accessorKey: "condition", header: "Condition" },
-      { accessorKey: "lastVisit", header: "Last Visit" },
+      { accessorKey: "scriptId", header: "Script ID" },
+      { accessorKey: "patientName", header: "Patient" },
+      { accessorKey: "drugName", header: "Drug" },
+      { accessorKey: "status", header: "Status" },
+      { accessorKey: "revenue", header: "Revenue" },
+      { accessorKey: "fillDate", header: "Fill Date" },
     ],
   },
   colors: generateDashboardTheme({

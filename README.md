@@ -1,5 +1,26 @@
 # CortexDash: A Config-Driven Dashboard with Data Visualizations
 
+## Current Status & Test Deploy
+
+This project is currently in a **Pre-MVP Test Deployment** phase.
+
+### Chart and Table representational components are still under development
+
+#### Currently
+
+- **Frontend:** Deployed on Vercel.
+- **Backend:** Deployed on Render, serving fixed mock data.
+
+_Python/Flask backend will be deployed on Render, serving a fixed set of **mock data**._
+
+The purpose of this deployment is to showcase the application's architecture, user interface, and core config-driven features.
+
+All known issues, architectural debt, and post-MVP features are being formally tracked in our [**Issue Tracker**](_docs/ISSUE_TRACKER.md).
+
+The next major milestone is the full MVP release, which will involve connecting the backend to a live PostgreSQL database populated with more extensive, realistic data.
+
+---
+
 CortexDash is an advanced, full-stack dashboard platform designed to showcase a modern, scalable, and reusable web architecture. The core innovation is its **config-driven design**, allowing for the rapid development and deployment of new, themed dashboards by defining a single TypeScript configuration file.
 
 This approach minimizes hardcoded UI and logic, maximizing reusability and accelerating development. It's a strategic demonstration of building flexible, data-driven applications.
@@ -51,11 +72,3 @@ To ensure stability and accelerate development, we are following a professional,
 1. **API Contract First:** The data schemas for all pharmacy-related backend endpoints have been fully defined.
 2. **Mock API Development:** A stable mock API is serving static, pre-defined JSON data that conforms to the API contract _(Using the Faker module)_
 3. **Frontend Implementation:** The entire Next.js frontend is being built and perfected against this stable mock API, allowing the UI to be completed independently of the live backend.
-
-## Future State & Deployment
-
-Once the frontend is complete, the project will transition to a full production architecture:
-
-- The **Flask backend** will be connected to a **PostgreSQL** database hosted on **Render**.
-- The **Next.js frontend** will be deployed on **Vercel**, communicating with the live backend API.
-- Continuous Deployment is configured for both services, triggering automated builds and deployments on every push to the `main` branch.
