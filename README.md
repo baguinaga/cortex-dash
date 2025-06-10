@@ -11,8 +11,6 @@ This project is currently in a **Pre-MVP Test Deployment** phase.
 - **Frontend:** Deployed on Vercel.
 - **Backend:** Deployed on Render, serving fixed mock data.
 
-_Python/Flask backend will be deployed on Render, serving a fixed set of **mock data**._
-
 The purpose of this deployment is to showcase the application's architecture, user interface, and core config-driven features.
 
 All known issues, architectural debt, and post-MVP features are being formally tracked in our [**Issue Tracker**](_docs/ISSUE_TRACKER.md).
