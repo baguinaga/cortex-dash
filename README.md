@@ -55,13 +55,19 @@ The project is planning to actively demonstrate its core architectural strength 
 
 ### Development Roadmap
 
-The immediate focus is on building out a **Pharmacy Analytics** dashboard as the second flagship theme. This will be followed by refining the **Pharmacy Analytics** theme and adding a third **Security Ops** dashboard post MVP.
+The immediate focus is on building out a **Pharmacy Analytics** dashboard as the flagship theme. This will be followed by refining the previous **Healthcare** theme and adding a third **Security Ops** dashboard post MVP.
 
-This multi-theme approach serves as a direct proof-of-concept for the platform's flexibility and scalability. The current `pharmacy.config.ts` will power a dashboard showcasing key performance indicators such as:
+This multi-theme approach serves as a direct proof-of-concept for the platform's flexibility and scalability. The current `pharmacy.config.ts` powers a dashboard providing an operational view for pharmacy staff and an analytics view to track pharmacy revenue performance. The mock API currently exposes data for:
 
-- Patient Adherence (PDC) Scores
-- Drug Rebate and Revenue Tracking
-- Dispensing and Inventory Analytics
+- **Operational View:**
+
+  - A real-time queue of **Recent Prescriptions** with their current fulfillment status.
+  - Actionable **Notifications** for scripts that require attention (e.g., "Awaiting Patient Pickup").
+
+- **Analytics View:**
+  - High-level **Key Performance Indicators (KPIs)** like Total Revenue and Patient Adherence (PDC).
+  - A **Revenue-by-Week** trend chart for tracking financial performance over time.
+  - A breakdown of **Top Drugs by Revenue** to identify key business drivers.
 
 ### Decoupled Development Workflow
 
@@ -69,4 +75,4 @@ To ensure stability and accelerate development, we are following a professional,
 
 1. **API Contract First:** The data schemas for all pharmacy-related backend endpoints have been fully defined.
 2. **Mock API Development:** A stable mock API is serving static, pre-defined JSON data that conforms to the API contract _(Using the Faker module)_
-3. **Frontend Implementation:** The entire Next.js frontend is being built and perfected against this stable mock API, allowing the UI to be completed independently of the live backend.
+3. **Frontend Implementation:** The entire Next.js frontend is being built and perfected against this stable mock API, allowing the UI to be completed independently of the backend.
