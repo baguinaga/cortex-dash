@@ -1,0 +1,26 @@
+{
+  "name": "cortex-dash",
+  "private": true,
+  "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail --prefix-colors cyan,magenta --names 'BACKEND,FRONTEND' \"pnpm dev:backend\" \"pnpm dev:frontend\"",
+    "dev:backend": "cd backend && source venv/bin/activate && python run.py",
+    "dev:frontend": "cd frontend && pnpm dev",
+    "health": "curl -f http://localhost:5001 && echo '✅ Backend OK' && curl -f http://localhost:3000 && echo '✅ Frontend OK'",
+    "preview": "cd frontend && pnpm build && pnpm start",
+    "setup": "cd frontend && cp .env.local .env.local.backup 2>/dev/null && echo '✅ .env.local backed up' || echo '⚠️  No .env.local found'",
+    "install:all": "pnpm install && cd frontend && pnpm install && cd ../backend && source venv/bin/activate && pip install -r requirements.txt",
+    "clean": "cd frontend && rm -rf node_modules .next && cd ../backend && rm -rf __pycache__"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "react",
+        "react-dom"
+      ]
+    }
+  }
+}
