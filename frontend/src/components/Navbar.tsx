@@ -70,7 +70,7 @@ export default function Navbar() {
         >
           <Button variant='outline' size='sm'>
             <GithubLogo className='h-4 w-4' />
-            GitHub Repository
+            GitHub
           </Button>
         </a>
       </div>
