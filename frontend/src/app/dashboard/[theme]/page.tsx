@@ -93,7 +93,7 @@ export default async function DashboardPage<TEndpoints>({
   return (
     <>
       <ThemeManager config={config} />
-      <div className='flex flex-1 overflow-hidden h-full'>
+      <div className='flex flex-1 flex-col md:flex-row overflow-hidden h-full'>
         <Sidebar config={config} themeId={theme} />
         <main className='bg-card flex-1'>
           <div className='mx-10 py-10'>
