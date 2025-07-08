@@ -20,13 +20,12 @@ interface DashboardPageProps {
 async function getDashboardConfig<TEndpoints>(
   theme: string
 ): Promise<DashboardConfig<TEndpoints>> {
-  // Validate theme parameter
+  // TODO: Reconsider the negative case for demo purposes - should the user be redirected?
   if (!theme || typeof theme !== "string" || theme.trim() === "") {
     console.error("Invalid theme parameter:", theme);
     return notFound();
   }
 
-  // Sanitize theme to prevent path traversal
   const sanitizedTheme = theme.replace(/[^a-zA-Z0-9-_]/g, "");
   if (sanitizedTheme !== theme) {
     console.error("Theme contains invalid characters:", theme);
@@ -34,7 +33,6 @@ async function getDashboardConfig<TEndpoints>(
   }
 
   try {
-    // Dynamically import the config module
     const configModule = await import(`@/configs/${sanitizedTheme}.config.ts`);
     const config = configModule.dashboardConfig;
 
@@ -44,14 +42,12 @@ async function getDashboardConfig<TEndpoints>(
       );
     }
 
-    // Validate required config properties
     if (!config.id || !config.title || !config.apiEndpoints) {
       throw new Error(
         `Invalid config structure in ${sanitizedTheme}.config.ts - missing required properties`
       );
     }
 
-    // Type assertion after validation
     const validatedConfig = config as DashboardConfig<TEndpoints>;
 
     if (
@@ -64,13 +60,11 @@ async function getDashboardConfig<TEndpoints>(
 
     return validatedConfig;
   } catch (error) {
-    // Log the error for debugging
     console.error(`Failed to load config for theme: ${theme}`, {
       error: error instanceof Error ? error.message : "Unknown error",
       theme: sanitizedTheme,
     });
 
-    // Return 404 for any config loading errors
     return notFound();
   }
 }
@@ -92,10 +86,9 @@ export default async function DashboardPage<TEndpoints>({
   const resolvedSearchParams = await searchParams;
   const currentView = resolvedSearchParams.view as string | undefined;
 
-  // Determine which sections of the layout to render based on the 'view' query param
   const sectionsToRender = currentView
     ? config.layout.filter((s) => s.id === currentView)
-    : [config.layout[0]].filter(Boolean); // Default to the first section as the "Overview"
+    : [config.layout[0]].filter(Boolean);
 
   return (
     <>
