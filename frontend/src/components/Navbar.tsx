@@ -31,7 +31,7 @@ export default function Navbar() {
   return (
     <nav className='bg-background border-b border-border flex items-center h-20 px-4 sm:px-6 shrink-0'>
       <div className='flex items-center gap-8'>
-        <h1 className='text-foreground text-2xl font-semibold hidden sm:block'>
+        <h1 className='text-foreground text-2xl font-semibold hidden sm:block md:pr-8'>
           CortexDash
         </h1>
 

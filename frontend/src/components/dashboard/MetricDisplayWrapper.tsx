@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import MetricDisplay from "./MetricDisplay";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { LoadingCard } from "@/components/ui/LoadingCard";
+import { ErrorCard } from "@/components/ui/ErrorCard";
 import { getApiUrl } from "@/lib/api";
 
 interface MetricDisplayWrapperProps {
@@ -30,67 +30,48 @@ export default function MetricDisplayWrapper({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      setError(null);
-      try {
-        const fullUrl = getApiUrl(endpoint);
-        const response = await fetch(fullUrl);
-        if (!response.ok) {
-          throw new Error(
-            `API error: ${response.status} ${response.statusText}`
-          );
-        }
-        const json: ApiResponse = await response.json();
-
-        if (json[metricId]) {
-          setData(json[metricId]);
-        } else {
-          throw new Error(`MetricId "${metricId}" not found in response`);
-        }
-      } catch (e) {
-        if (e instanceof Error) {
-          setError(e.message);
-        } else {
-          setError("An unknown error occurred");
-        }
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const fullUrl = getApiUrl(endpoint);
+      const response = await fetch(fullUrl);
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
-    }
+      const json: ApiResponse = await response.json();
 
+      if (json[metricId]) {
+        setData(json[metricId]);
+      } else {
+        throw new Error(`Metric "${metricId}" not found in response`);
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("An unknown error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [endpoint, metricId]);
 
   if (loading) {
-    return (
-      <Card>
-        <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-          <Skeleton className='h-4 w-3/4' />
-        </CardHeader>
-        <CardContent>
-          <Skeleton className='h-8 w-1/2' />
-        </CardContent>
-      </Card>
-    );
+    return <LoadingCard />;
   }
 
   if (error) {
     return (
-      <Card className='border-destructive'>
-        <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-          <CardTitle className='text-sm font-medium text-destructive'>
-            {title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className='text-xs text-destructive-foreground'>
-            <p className='font-semibold'>Failed to load metric</p>
-            <p className='mt-1'>{error}</p>
-          </div>
-        </CardContent>
-      </Card>
+      <ErrorCard
+        title={`Failed to load ${title}`}
+        message={error}
+        severity='error'
+      />
     );
   }
 
