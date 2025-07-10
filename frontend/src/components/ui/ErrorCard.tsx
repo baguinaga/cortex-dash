@@ -30,21 +30,20 @@ export function ErrorCard({
   severity = "error",
   className,
 }: ErrorCardProps) {
-  const config = ERROR_CONFIG[severity];
-  const Icon = config.icon;
+  const { style, icon: Icon } = ERROR_CONFIG[severity];
 
   return (
-    <Card className={cn(config.style, className)}>
+    <Card className={cn(style, className)}>
       {title && (
         <CardHeader>
-          <CardTitle className='flex items-center gap-2 text-sm font-medium'>
-            {Icon && <Icon className='h-4 w-4' />}
+          <CardTitle className='flex items-center gap-2 text-lg font-medium uppercase'>
+            {Icon && <Icon className='h-8 w-8' />}
             {title}
           </CardTitle>
         </CardHeader>
       )}
       <CardContent>
-        <p className='text-xs text-destructive-foreground'>{message}</p>
+        <p className='text-md text-destructive-foreground'>{message}</p>
       </CardContent>
     </Card>
   );
