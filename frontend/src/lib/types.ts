@@ -93,8 +93,8 @@ export interface DashboardConfig<TEndpoints> {
 
   layout: DashboardSection[];
 
-  metrics?: Metric[];
-  charts?: ChartConfig[];
+  metricsMetadata?: Metric[];
+  chartsMetadata?: ChartConfig[];
   mainTable?: {
     id: string;
     columns: TableColumnDefinition<unknown>[];

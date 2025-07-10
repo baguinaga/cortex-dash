@@ -62,7 +62,7 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       ],
     },
   ],
-  metrics: [
+  metricsMetadata: [
     { id: "total-patients", title: "Total Patients", value: "1,234", unit: "" },
     { id: "avg-wait-time", title: "Avg. Wait Time", value: "25", unit: "min" },
     { id: "er-visits", title: "ER Visits Today", value: "320", unit: "" },
@@ -73,7 +73,7 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       unit: "%",
     },
   ],
-  charts: [
+  chartsMetadata: [
     {
       id: "daily-visits",
       title: "Daily Patient Visits",

@@ -1,6 +1,6 @@
 import { DashboardConfig, DashboardSection } from "@/lib/types";
 import MetricDisplayWrapper from "./MetricDisplayWrapper";
-import ConfigErrorCard from "./ConfigErrorCard";
+import { ErrorCard } from "@/components/ui/ErrorCard";
 
 const componentMap = {
   metricDisplay: MetricDisplayWrapper,
@@ -26,40 +26,44 @@ export default function DashboardSectionRenderer<TEndpoints>({
     <div className={`grid gap-4 mt-6 ${gridColsMap[section.gridCols ?? 1]}`}>
       {section.components.map((componentConfig, index) => {
         const key = `${section.id}-${componentConfig.type}-${index}`;
+
+        // Displays an warning if component of type does not have a corresponding wrapper component in componentMap
         const Component =
           componentMap[componentConfig.type as keyof typeof componentMap];
-
         if (!Component) {
           return (
-            <ConfigErrorCard
+            <ErrorCard
               key={key}
-              subject='Unknown Component'
+              title='Unknown Component'
               message={`The component type "${componentConfig.type}" is not registered in the component map.`}
+              severity='warning'
             />
           );
         }
-
+        // Displays an warning if component of type does not have an endpoint defined in the config
         const endpoint = componentConfig.endpoint || section.endpoint;
         if (!endpoint) {
           return (
-            <ConfigErrorCard
+            <ErrorCard
               key={key}
-              subject='Missing Endpoint'
-              message={`The component of type "${componentConfig.type}" requires an endpoint, but none was provided.`}
+              title='Missing Endpoint'
+              message={`The component of type "${componentConfig.type}" requires an endpoint.`}
+              severity='warning'
             />
           );
         }
-
+        // Displays an warning if component of type does not have metadata (title, value, units) defined in the config
         if (componentConfig.type === "metricDisplay") {
-          const metricMeta = config.metrics?.find(
+          const metricMeta = config.metricsMetadata?.find(
             (m) => m.id === componentConfig.metricId
           );
           if (!metricMeta) {
             return (
-              <ConfigErrorCard
+              <ErrorCard
                 key={key}
-                subject='Missing Metadata'
+                title='Missing Metadata'
                 message={`Metadata for metric with ID "${componentConfig.metricId}" could not be found in the config.`}
+                severity='warning'
               />
             );
           }

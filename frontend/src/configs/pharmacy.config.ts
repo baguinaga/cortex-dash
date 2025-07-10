@@ -61,7 +61,7 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
       ],
     },
   ],
-  metrics: [
+  metricsMetadata: [
     { id: "totalRevenue", title: "Total Revenue", value: "", unit: "USD" },
     {
       id: "avgTurnAroundTime",
@@ -77,7 +77,7 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
       unit: "%",
     },
   ],
-  charts: [
+  chartsMetadata: [
     {
       id: "revenue-trends",
       title: "Weekly Revenue",
