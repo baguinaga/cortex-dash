@@ -40,7 +40,6 @@ interface ThemeGeneratorOptions {
  */
 function generateHslScale(hue: number, chroma: number): string[] {
   return lightnessStops.map((lightness) => {
-    // This is a simplified but effective OKLCH -> HSL conversion
     const saturation = Math.min(100, chroma * 300);
     const lightnessPercent = lightness * 100;
     return `hsl(${hue.toFixed(0)}, ${saturation.toFixed(
@@ -83,30 +82,30 @@ export function generateDashboardTheme(
   );
 
   return {
-    //TODO: allow for a dark-mode definition
+    //TODO: allow for a dark-mode definition, will need to invert background and foreground values
     // Nav
-    "--background": navbarBgScale[8], // Dark shade for the background
-    "--foreground": navbarFgScale[1], // Light shade for text
-    "--border": navbarBgScale[6], // Slightly lighter dark shade for borders
-    "--muted-foreground": navbarFgScale[3], // Muted text color
+    "--background": navbarBgScale[8],
+    "--foreground": navbarFgScale[1],
+    "--border": navbarBgScale[6],
+    "--muted-foreground": navbarFgScale[3],
 
     // Sidebar
-    "--sidebar": sidebarBgScale[1], // Very light background
-    "--sidebar-foreground": sidebarBgScale[8], // Dark text
-    "--sidebar-primary-foreground": sidebarBrandScale[9], // Darkest brand color for titles
-    "--sidebar-accent": sidebarBrandScale[3], // Light brand color for active items
-    "--sidebar-accent-foreground": sidebarBrandScale[9], // Dark brand text on active items
-    "--sidebar-border": sidebarBgScale[3], // Subtle border color
+    "--sidebar": sidebarBgScale[1],
+    "--sidebar-foreground": sidebarBgScale[8],
+    "--sidebar-primary-foreground": sidebarBrandScale[9],
+    "--sidebar-accent": sidebarBrandScale[3],
+    "--sidebar-accent-foreground": sidebarBrandScale[9],
+    "--sidebar-border": sidebarBgScale[3],
 
     //TODO: Consider an off-white background usecase, current code forces --card variable to white.
     // Main Content Area
-    "--card": mainBgScale[0], // Lightest shade (white/off-white) for cards
-    "--card-foreground": mainBgScale[9], // Darkest shade for text
+    "--card": mainBgScale[0],
+    "--card-foreground": mainBgScale[9],
     // Buttons
-    "--primary": mainAccentScale[6], // The main brand accent color for buttons
-    "--primary-foreground": navbarFgScale[0], // Use navbar's lightest color for text on primary buttons
+    "--primary": mainAccentScale[6],
+    "--primary-foreground": navbarFgScale[0],
     // Secondary Buttons
-    "--secondary": mainBgScale[2], // A light secondary background color
-    "--secondary-foreground": mainBgScale[8], // Dark text for secondary elements
+    "--secondary": mainBgScale[2],
+    "--secondary-foreground": mainBgScale[8],
   };
 }

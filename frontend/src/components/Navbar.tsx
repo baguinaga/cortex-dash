@@ -39,7 +39,7 @@ export default function Navbar() {
           <DropdownMenuTrigger asChild>
             <Button
               variant='outline'
-              className='bg-foreground text-black w-[200px] justify-between'
+              className='text-black w-[200px] justify-between'
             >
               {currentTheme.name}
               <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
