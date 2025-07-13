@@ -1,6 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ErrorCard } from "@/components/ui/ErrorCard";
-import { LineChart, BarChart, AreaChart } from "@/components/charts";
+import {
+  LineChart,
+  BarChart,
+  AreaChart,
+} from "@/components/dashboard/visualizations";
 import { ChartConfig } from "@/lib/types";
 
 interface ChartDisplayProps {

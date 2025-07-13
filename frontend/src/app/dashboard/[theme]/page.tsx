@@ -20,15 +20,12 @@ interface DashboardPageProps {
 async function getDashboardConfig<TEndpoints>(
   theme: string
 ): Promise<DashboardConfig<TEndpoints>> {
-  // TODO: Reconsider the negative case for demo purposes - should the user be redirected?
   if (!theme || typeof theme !== "string" || theme.trim() === "") {
-    console.error("Invalid theme parameter:", theme);
     return notFound();
   }
 
   const sanitizedTheme = theme.replace(/[^a-zA-Z0-9-_]/g, "");
   if (sanitizedTheme !== theme) {
-    console.error("Theme contains invalid characters:", theme);
     return notFound();
   }
 
@@ -59,12 +56,7 @@ async function getDashboardConfig<TEndpoints>(
     }
 
     return validatedConfig;
-  } catch (error) {
-    console.error(`Failed to load config for theme: ${theme}`, {
-      error: error instanceof Error ? error.message : "Unknown error",
-      theme: sanitizedTheme,
-    });
-
+  } catch {
     return notFound();
   }
 }
@@ -77,8 +69,7 @@ export default async function DashboardPage<TEndpoints>({
   try {
     const resolvedParams = await params;
     theme = resolvedParams.theme;
-  } catch (error) {
-    console.error("Failed to resolve params:", error);
+  } catch {
     return notFound();
   }
 
@@ -88,7 +79,9 @@ export default async function DashboardPage<TEndpoints>({
 
   const sectionsToRender = currentView
     ? config.layout.filter((s) => s.id === currentView)
-    : [config.layout[0]].filter(Boolean);
+    : config.layout[0]
+    ? [config.layout[0]]
+    : [];
 
   return (
     <>
@@ -96,11 +89,10 @@ export default async function DashboardPage<TEndpoints>({
       <div className='flex flex-1 flex-col md:flex-row overflow-hidden h-full'>
         <Sidebar config={config} themeId={theme} />
         <main className='bg-card flex-1'>
-          <div className='mx-10 py-10'>
+          <div className='max-w-2xl lg:max-w-4xl 2xl:max-w-7xl mx-auto p-10'>
             {sectionsToRender.length > 0 ? (
               sectionsToRender.map((section) => (
                 <div key={section.id} id={section.id} className='mb-12'>
-                  {/* TODO: Handle the negative case with a component */}
                   <h2 className='text-black text-2xl font-bold tracking-tight'>
                     {section.title ?? "Overview"}
                   </h2>

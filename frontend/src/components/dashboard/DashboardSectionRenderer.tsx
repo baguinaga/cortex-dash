@@ -1,6 +1,6 @@
 import { DashboardConfig, DashboardSection } from "@/lib/types";
-import MetricDisplayWrapper from "./MetricDisplayWrapper";
-import ChartDisplayWrapper from "./ChartDisplayWrapper";
+import MetricDisplayWrapper from "./metrics/MetricContainer";
+import ChartDisplayWrapper from "./charts/ChartContainer";
 import { ErrorCard } from "@/components/ui/ErrorCard";
 
 const componentMap = {
