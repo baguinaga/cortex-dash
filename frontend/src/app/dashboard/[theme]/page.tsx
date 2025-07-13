@@ -89,7 +89,7 @@ export default async function DashboardPage<TEndpoints>({
       <div className='flex flex-1 flex-col md:flex-row overflow-hidden h-full'>
         <Sidebar config={config} themeId={theme} />
         <main className='bg-card flex-1'>
-          <div className='mx-10 py-10'>
+          <div className='max-w-2xl lg:max-w-4xl 2xl:max-w-7xl mx-auto p-10'>
             {sectionsToRender.length > 0 ? (
               sectionsToRender.map((section) => (
                 <div key={section.id} id={section.id} className='mb-12'>

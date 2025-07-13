@@ -29,35 +29,36 @@ export default function MetricDisplayWrapper({
   const [data, setData] = useState<MetricData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const fetchData = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const fullUrl = getApiUrl(endpoint);
-      const response = await fetch(fullUrl);
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status} ${response.statusText}`);
-      }
-      const json: ApiResponse = await response.json();
-
-      if (json[metricId]) {
-        setData(json[metricId]);
-      } else {
-        throw new Error(`Metric "${metricId}" not found in response`);
-      }
-    } catch (e) {
-      if (e instanceof Error) {
-        setError(e.message);
-      } else {
-        setError("An unknown error occurred");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const fullUrl = getApiUrl(endpoint);
+        const response = await fetch(fullUrl);
+        if (!response.ok) {
+          throw new Error(
+            `API error: ${response.status} ${response.statusText}`
+          );
+        }
+        const json: ApiResponse = await response.json();
+
+        if (json[metricId]) {
+          setData(json[metricId]);
+        } else {
+          throw new Error(`Metric "${metricId}" not found in response`);
+        }
+      } catch (e) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
   }, [endpoint, metricId]);
 

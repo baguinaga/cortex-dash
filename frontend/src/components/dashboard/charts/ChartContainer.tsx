@@ -29,48 +29,51 @@ export default function ChartDisplayWrapper({
   const [data, setData] = useState<ChartDataPoint[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const fetchData = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const fullUrl = getApiUrl(endpoint);
-      const response = await fetch(fullUrl);
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status} ${response.statusText}`);
-      }
-      const json: ChartApiResponse = await response.json();
-
-      if (!Array.isArray(json)) {
-        throw new Error("Chart API response must be an array");
-      }
-
-      if (json.length === 0) {
-        throw new Error("No data points available for chart");
-      }
-
-      const samplePoint = json[0];
-      if (!samplePoint[chartConfig.xAxisKey]) {
-        throw new Error(`Missing required X-axis key: ${chartConfig.xAxisKey}`);
-      }
-      if (!samplePoint[chartConfig.dataKey]) {
-        throw new Error(`Missing required data key: ${chartConfig.dataKey}`);
-      }
-
-      setData(json);
-    } catch (e) {
-      if (e instanceof Error) {
-        setError(e.message);
-      } else {
-        setError("An unknown error occurred");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const fullUrl = getApiUrl(endpoint);
+        const response = await fetch(fullUrl);
+
+        if (!response.ok) {
+          throw new Error(
+            `API error: ${response.status} ${response.statusText}`
+          );
+        }
+        const json: ChartApiResponse = await response.json();
+
+        if (!Array.isArray(json)) {
+          throw new Error("Chart API response must be an array");
+        }
+
+        if (json.length === 0) {
+          throw new Error("No data points available for chart");
+        }
+
+        const samplePoint = json[0];
+        if (!samplePoint[chartConfig.xAxisKey]) {
+          throw new Error(
+            `Missing required X-axis key: ${chartConfig.xAxisKey}`
+          );
+        }
+        if (!samplePoint[chartConfig.dataKey]) {
+          throw new Error(`Missing required data key: ${chartConfig.dataKey}`);
+        }
+
+        setData(json);
+      } catch (e) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
   }, [endpoint, chartId]);
 
