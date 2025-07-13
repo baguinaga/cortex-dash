@@ -81,6 +81,7 @@ export interface PharmacyApiEndpoints {
   drugsRevenue: string;
   recentScripts: string;
   notifications: string;
+  monthlyTrends: string;
 }
 
 export interface DashboardConfig<TEndpoints> {
