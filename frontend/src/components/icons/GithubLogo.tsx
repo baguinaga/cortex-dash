@@ -1,5 +1,3 @@
-import React from "react";
-
 export const GithubLogo = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     role='img'

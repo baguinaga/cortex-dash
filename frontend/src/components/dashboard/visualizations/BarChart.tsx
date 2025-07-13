@@ -1,7 +1,7 @@
-import React from "react";
 import {
-  LineChart as RechartsLineChart,
-  Line,
+  BarChart as RechartsBarChart,
+  Bar,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { ChartConfig, CustomTooltipProps } from "@/lib/types";
 
-interface LineChartProps {
+interface BarChartProps {
   data: Array<{ [key: string]: string | number }>;
   config: ChartConfig;
 }
@@ -43,12 +43,10 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   return null;
 };
 
-export const LineChart: React.FC<LineChartProps> = ({ data, config }) => {
-  const lineColor = CHART_COLORS[1];
-
+export const BarChart: React.FC<BarChartProps> = ({ data, config }) => {
   return (
     <ResponsiveContainer width='100%' height={300}>
-      <RechartsLineChart
+      <RechartsBarChart
         data={data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
@@ -69,25 +67,16 @@ export const LineChart: React.FC<LineChartProps> = ({ data, config }) => {
           tickLine={{ stroke: "hsl(var(--border))" }}
         />
         <Tooltip content={<CustomTooltip />} />
-        <Line
-          type='monotone'
-          dataKey={config.dataKey}
-          stroke={lineColor}
-          strokeWidth={3}
-          dot={{
-            fill: lineColor,
-            strokeWidth: 2,
-            stroke: "hsl(var(--background))",
-            r: 4,
-          }}
-          activeDot={{
-            r: 6,
-            fill: lineColor,
-            stroke: "hsl(var(--background))",
-            strokeWidth: 2,
-          }}
-        />
-      </RechartsLineChart>
+        <Bar dataKey={config.dataKey} radius={[4, 4, 0, 0]} strokeWidth={0}>
+          {data.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={CHART_COLORS[index % CHART_COLORS.length]}
+              stroke={CHART_COLORS[index % CHART_COLORS.length]}
+            />
+          ))}
+        </Bar>
+      </RechartsBarChart>
     </ResponsiveContainer>
   );
 };

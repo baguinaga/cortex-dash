@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ChartDisplay from "./ChartDisplay";
+import ChartDisplay from "./Chart";
 import { LoadingCard } from "@/components/ui/LoadingCard";
 import { ErrorCard } from "@/components/ui/ErrorCard";
 import { getApiUrl } from "@/lib/api";

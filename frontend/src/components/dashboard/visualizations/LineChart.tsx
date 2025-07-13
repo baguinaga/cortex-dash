@@ -1,7 +1,6 @@
-import React from "react";
 import {
-  AreaChart as RechartsAreaChart,
-  Area,
+  LineChart as RechartsLineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,7 +9,7 @@ import {
 } from "recharts";
 import { ChartConfig, CustomTooltipProps } from "@/lib/types";
 
-interface AreaChartProps {
+interface LineChartProps {
   data: Array<{ [key: string]: string | number }>;
   config: ChartConfig;
 }
@@ -43,12 +42,12 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   return null;
 };
 
-export const AreaChart: React.FC<AreaChartProps> = ({ data, config }) => {
-  const areaColor = CHART_COLORS[2];
+export const LineChart: React.FC<LineChartProps> = ({ data, config }) => {
+  const lineColor = CHART_COLORS[1];
 
   return (
     <ResponsiveContainer width='100%' height={300}>
-      <RechartsAreaChart
+      <RechartsLineChart
         data={data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
@@ -69,15 +68,25 @@ export const AreaChart: React.FC<AreaChartProps> = ({ data, config }) => {
           tickLine={{ stroke: "hsl(var(--border))" }}
         />
         <Tooltip content={<CustomTooltip />} />
-        <Area
+        <Line
           type='monotone'
           dataKey={config.dataKey}
-          stroke={areaColor}
-          fill={areaColor}
-          fillOpacity={0.3}
-          strokeWidth={2}
+          stroke={lineColor}
+          strokeWidth={3}
+          dot={{
+            fill: lineColor,
+            strokeWidth: 2,
+            stroke: "hsl(var(--background))",
+            r: 4,
+          }}
+          activeDot={{
+            r: 6,
+            fill: lineColor,
+            stroke: "hsl(var(--background))",
+            strokeWidth: 2,
+          }}
         />
-      </RechartsAreaChart>
+      </RechartsLineChart>
     </ResponsiveContainer>
   );
 };

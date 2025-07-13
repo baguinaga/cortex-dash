@@ -1,8 +1,6 @@
-import React from "react";
 import {
-  BarChart as RechartsBarChart,
-  Bar,
-  Cell,
+  AreaChart as RechartsAreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,7 +9,7 @@ import {
 } from "recharts";
 import { ChartConfig, CustomTooltipProps } from "@/lib/types";
 
-interface BarChartProps {
+interface AreaChartProps {
   data: Array<{ [key: string]: string | number }>;
   config: ChartConfig;
 }
@@ -44,10 +42,12 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   return null;
 };
 
-export const BarChart: React.FC<BarChartProps> = ({ data, config }) => {
+export const AreaChart: React.FC<AreaChartProps> = ({ data, config }) => {
+  const areaColor = CHART_COLORS[2];
+
   return (
     <ResponsiveContainer width='100%' height={300}>
-      <RechartsBarChart
+      <RechartsAreaChart
         data={data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
@@ -68,16 +68,15 @@ export const BarChart: React.FC<BarChartProps> = ({ data, config }) => {
           tickLine={{ stroke: "hsl(var(--border))" }}
         />
         <Tooltip content={<CustomTooltip />} />
-        <Bar dataKey={config.dataKey} radius={[4, 4, 0, 0]} strokeWidth={0}>
-          {data.map((entry, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={CHART_COLORS[index % CHART_COLORS.length]}
-              stroke={CHART_COLORS[index % CHART_COLORS.length]}
-            />
-          ))}
-        </Bar>
-      </RechartsBarChart>
+        <Area
+          type='monotone'
+          dataKey={config.dataKey}
+          stroke={areaColor}
+          fill={areaColor}
+          fillOpacity={0.3}
+          strokeWidth={2}
+        />
+      </RechartsAreaChart>
     </ResponsiveContainer>
   );
 };

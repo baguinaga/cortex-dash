@@ -16,7 +16,6 @@ export interface ChartConfig {
   xAxisKey: string;
 }
 
-// Tooltip types for Recharts
 export interface TooltipPayloadItem {
   name: string;
   value: string | number;

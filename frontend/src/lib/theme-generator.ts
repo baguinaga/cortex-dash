@@ -82,13 +82,12 @@ export function generateDashboardTheme(
   );
 
   return {
-    //TODO: allow for a dark-mode definition, will need to invert background and foreground values
+    //TODO: create dark mode variables
     // Nav
     "--background": navbarBgScale[8],
     "--foreground": navbarFgScale[1],
     "--border": navbarBgScale[6],
     "--muted-foreground": navbarFgScale[3],
-
     // Sidebar
     "--sidebar": sidebarBgScale[1],
     "--sidebar-foreground": sidebarBgScale[8],
@@ -96,8 +95,6 @@ export function generateDashboardTheme(
     "--sidebar-accent": sidebarBrandScale[3],
     "--sidebar-accent-foreground": sidebarBrandScale[9],
     "--sidebar-border": sidebarBgScale[3],
-
-    //TODO: Consider an off-white background usecase, current code forces --card variable to white.
     // Main Content Area
     "--card": mainBgScale[0],
     "--card-foreground": mainBgScale[9],
