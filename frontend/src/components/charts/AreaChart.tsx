@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { ChartConfig } from "@/lib/types";
+import { ChartConfig, CustomTooltipProps } from "@/lib/types";
 
 interface AreaChartProps {
   data: Array<{ [key: string]: string | number }>;
@@ -23,12 +23,16 @@ const CHART_COLORS = [
   "var(--chart-5)",
 ];
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip: React.FC<CustomTooltipProps> = ({
+  active,
+  payload,
+  label,
+}) => {
   if (active && payload && payload.length) {
     return (
       <div className='bg-popover border border-border rounded-lg shadow-lg p-3'>
         <p className='text-popover-foreground font-medium mb-1'>{label}</p>
-        {payload.map((entry: any, index: number) => (
+        {payload.map((entry, index) => (
           <p key={index} className='text-sm' style={{ color: entry.color }}>
             {entry.name}: {entry.value}
           </p>

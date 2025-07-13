@@ -16,6 +16,21 @@ export interface ChartConfig {
   xAxisKey: string;
 }
 
+// Tooltip types for Recharts
+export interface TooltipPayloadItem {
+  name: string;
+  value: string | number;
+  color: string;
+  dataKey: string;
+  payload: Record<string, unknown>;
+}
+
+export interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string | number;
+}
+
 interface ColumnRenderProps<TData> {
   id: string;
   accessorKey: keyof TData | string;
