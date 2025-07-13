@@ -1,9 +1,11 @@
 import { DashboardConfig, DashboardSection } from "@/lib/types";
 import MetricDisplayWrapper from "./MetricDisplayWrapper";
+import ChartDisplayWrapper from "./ChartDisplayWrapper";
 import { ErrorCard } from "@/components/ui/ErrorCard";
 
 const componentMap = {
   metricDisplay: MetricDisplayWrapper,
+  chartDisplay: ChartDisplayWrapper,
 };
 
 const gridColsMap: { [key: number]: string } = {
@@ -73,6 +75,31 @@ export default function DashboardSectionRenderer<TEndpoints>({
               endpoint={endpoint}
               metricId={componentConfig.metricId}
               title={metricMeta.title}
+            />
+          );
+        }
+
+        if (componentConfig.type === "chartDisplay") {
+          const chartMeta = config.chartsMetadata?.find(
+            (c) => c.id === componentConfig.chartId
+          );
+          if (!chartMeta) {
+            return (
+              <ErrorCard
+                key={key}
+                title='Missing Chart Metadata'
+                message={`Metadata for chart with ID "${componentConfig.chartId}" could not be found in the config.`}
+                severity='warning'
+              />
+            );
+          }
+          return (
+            <ChartDisplayWrapper
+              key={key}
+              endpoint={endpoint}
+              chartId={componentConfig.chartId}
+              title={chartMeta.title}
+              chartConfig={chartMeta}
             />
           );
         }

@@ -105,6 +105,22 @@ MOCK_NOTIFICATIONS = [
     for script in MOCK_RECENT_SCRIPTS if script["status"] == "Awaiting Patient Pickup"
 ]
 
+# Monthly trends data for area chart
+MOCK_MONTHLY_TRENDS = [
+    {"month": "Jan 2025", "revenue": 680000},
+    {"month": "Feb 2025", "revenue": 720000},
+    {"month": "Mar 2025", "revenue": 750000},
+    {"month": "Apr 2025", "revenue": 780000},
+    {"month": "May 2025", "revenue": 820000},
+    {"month": "Jun 2025", "revenue": 850000},
+    {"month": "Jul 2025", "revenue": 890000},
+    {"month": "Aug 2025", "revenue": 920000},
+    {"month": "Sep 2025", "revenue": 880000},
+    {"month": "Oct 2025", "revenue": 940000},
+    {"month": "Nov 2025", "revenue": 980000},
+    {"month": "Dec 2025", "revenue": 1020000}
+]
+
 # ----- Healthcare API endpoints -----
 
 @api_bp.route('/healthcare/metrics', methods=['GET'])
@@ -157,3 +173,8 @@ def get_pharmacy_recent_scripts():
 def get_pharmacy_alerts():
     """Get new script notifications"""
     return jsonify(MOCK_NOTIFICATIONS)
+
+@api_bp.route('/pharmacy/monthly_trends', methods=['GET'])
+def get_pharmacy_monthly_trends():
+    """Get monthly revenue trends for area chart"""
+    return jsonify(MOCK_MONTHLY_TRENDS)

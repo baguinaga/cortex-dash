@@ -7,6 +7,7 @@ const apiEndpoints: PharmacyApiEndpoints = {
   drugsRevenue: "/api/pharmacy/drugs_by_revenue",
   recentScripts: "/api/pharmacy/recent_scripts",
   notifications: "/api/pharmacy/notifications",
+  monthlyTrends: "/api/pharmacy/monthly_trends",
 };
 
 export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
@@ -17,7 +18,7 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
   layout: [
     {
       id: "overview",
-      gridCols: 4,
+      gridCols: 2,
       endpoint: apiEndpoints.kpis,
       components: [
         { type: "metricDisplay", metricId: "totalRevenue" },
@@ -52,6 +53,11 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
           type: "chartDisplay",
           chartId: "revenue-trends",
           endpoint: apiEndpoints.revenue,
+        },
+        {
+          type: "chartDisplay",
+          chartId: "monthly-trends",
+          endpoint: apiEndpoints.monthlyTrends,
         },
         {
           type: "chartDisplay",
@@ -91,6 +97,13 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
       type: "bar",
       dataKey: "revenue",
       xAxisKey: "drugName",
+    },
+    {
+      id: "monthly-trends",
+      title: "Monthly Revenue Trends",
+      type: "area",
+      dataKey: "revenue",
+      xAxisKey: "month",
     },
   ],
   mainTable: {
