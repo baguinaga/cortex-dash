@@ -27,34 +27,34 @@ export default function Sidebar<TEndpoints>({
   const searchParams = useSearchParams();
   const currentView = searchParams.get("view");
   const { isSidebarOpen, toggleSidebar, closeSidebar } = useDashboardStore();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isSmallScreen = useMediaQuery("(max-width: 1023px)");
 
   const baseClasses =
-    "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors";
+    "flex items-center px-3 py-2 text-md font-medium rounded-md transition-colors";
   const activeClasses = "bg-sidebar-accent text-sidebar-accent-foreground";
   const inactiveClasses = "text-sidebar-foreground hover:bg-sidebar-accent/50";
 
   useEffect(() => {
-    if (isMobile) {
+    if (isSmallScreen) {
       closeSidebar();
     }
-  }, [isMobile, closeSidebar]);
+  }, [isSmallScreen, closeSidebar]);
 
   return (
-    <aside className='bg-sidebar border-r border-sidebar-border w-full absolute md:relative md:w-56 md:h-full md:block'>
-      <div className='p-4'>
+    <aside className='bg-sidebar border-r border-sidebar-border w-full absolute z-10 lg:relative lg:w-72 lg:h-full lg:block'>
+      <div className='py-4 px-6'>
         <Collapsible
-          open={isSidebarOpen || !isMobile}
+          open={isSidebarOpen || !isSmallScreen}
           onOpenChange={toggleSidebar}
         >
           <div className='flex justify-between'>
             <h2
-              className='text-sidebar-primary-foreground px-3 py-2 text-lg font-semibold tracking-tight leading-tight'
+              className='text-sidebar-primary-foreground px-3 py-2 text-xl font-semibold tracking-tight leading-tight truncate md:text-wrap md:overflow-visible'
               title={config.title}
             >
               {config.title}
             </h2>
-            <CollapsibleTrigger asChild className='md:hidden'>
+            <CollapsibleTrigger asChild className='lg:hidden'>
               <Button
                 variant='ghost'
                 className='flex px-3 py-2 text-sidebar-primary-foreground'
@@ -69,7 +69,7 @@ export default function Sidebar<TEndpoints>({
             </CollapsibleTrigger>
           </div>
           <CollapsibleContent>
-            <nav className='mt-4 space-y-1 md:block'>
+            <nav className='mt-4 space-y-1 lg:block'>
               <Link
                 href={`/dashboard/${themeId}`}
                 onClick={() => closeSidebar()}
