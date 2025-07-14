@@ -3,13 +3,13 @@
 import { useEffect } from "react";
 import { DashboardConfig } from "@/lib/types";
 
-interface ThemeManagerProps<TEndpoints> {
+interface ThemeManagerProps<TEndpoints extends Record<string, string>> {
   config: DashboardConfig<TEndpoints>;
 }
 
-export default function ThemeManager<TEndpoints>({
-  config,
-}: ThemeManagerProps<TEndpoints>) {
+export default function ThemeManager<
+  TEndpoints extends Record<string, string>
+>({ config }: ThemeManagerProps<TEndpoints>) {
   useEffect(() => {
     const colors = config.colors;
     if (!colors) return;

@@ -62,7 +62,7 @@ export default function MetricContainer({
     };
 
     fetchData();
-  }, []);
+  });
 
   if (loading) {
     return <LoadingCard />;

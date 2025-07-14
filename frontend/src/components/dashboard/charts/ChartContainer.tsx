@@ -48,7 +48,7 @@ export default function ChartContainer({
         }
 
         if (json.length === 0) {
-          throw new Error("No data points available for chart");
+          throw new Error(`No data points available for ${chartId}`);
         }
 
         const samplePoint = json[0];
@@ -72,7 +72,7 @@ export default function ChartContainer({
     };
 
     fetchData();
-  }, []);
+  });
 
   if (loading) {
     return <LoadingCard />;

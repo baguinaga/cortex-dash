@@ -15,12 +15,12 @@ import { ChevronDown } from "lucide-react";
 import { useDashboardStore } from "@/stores/dashboardStore";
 import { useMediaQuery } from "usehooks-ts";
 
-interface SidebarProps<TEndpoints> {
+interface SidebarProps<TEndpoints extends Record<string, string>> {
   config: DashboardConfig<TEndpoints>;
   themeId: string;
 }
 
-export default function Sidebar<TEndpoints>({
+export default function Sidebar<TEndpoints extends Record<string, string>>({
   config,
   themeId,
 }: SidebarProps<TEndpoints>) {
