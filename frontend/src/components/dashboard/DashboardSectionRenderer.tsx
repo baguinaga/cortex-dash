@@ -1,11 +1,11 @@
 import { DashboardConfig, DashboardSection } from "@/lib/types";
-import MetricDisplayWrapper from "./metrics/MetricContainer";
-import ChartDisplayWrapper from "./charts/ChartContainer";
+import MetricContainer from "./metrics/MetricContainer";
+import ChartContainer from "./charts/ChartContainer";
 import { ErrorCard } from "@/components/ui/ErrorCard";
 
 const componentMap = {
-  metricDisplay: MetricDisplayWrapper,
-  chartDisplay: ChartDisplayWrapper,
+  metric: MetricContainer,
+  chart: ChartContainer,
 };
 
 const gridColsMap: { [key: number]: string } = {
@@ -15,15 +15,16 @@ const gridColsMap: { [key: number]: string } = {
   4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
 };
 
-interface DashboardSectionRendererProps<TEndpoints> {
-  section: DashboardSection;
+interface DashboardSectionRendererProps<
+  TEndpoints extends Record<string, string>
+> {
+  section: DashboardSection<TEndpoints>;
   config: DashboardConfig<TEndpoints>;
 }
 
-export default function DashboardSectionRenderer<TEndpoints>({
-  section,
-  config,
-}: DashboardSectionRendererProps<TEndpoints>) {
+export default function DashboardSectionRenderer<
+  TEndpoints extends Record<string, string>
+>({ section, config }: DashboardSectionRendererProps<TEndpoints>) {
   return (
     <div className={`grid gap-4 mt-6 ${gridColsMap[section.gridCols ?? 1]}`}>
       {section.components.map((componentConfig, index) => {
@@ -54,52 +55,51 @@ export default function DashboardSectionRenderer<TEndpoints>({
             />
           );
         }
-        // Displays an warning if component of type does not have metadata (title, value, units) defined in the config
-        if (componentConfig.type === "metricDisplay") {
-          const metricMeta = config.metricsMetadata?.find(
+        // Displays an warning if component of type does not have configuration (title, value, units) defined in the config
+        if (componentConfig.type === "metric") {
+          const metricConfiguration = config.metricsConfiguration?.find(
             (m) => m.id === componentConfig.metricId
           );
-          if (!metricMeta) {
+          if (!metricConfiguration) {
             return (
               <ErrorCard
                 key={key}
-                title='Missing Metadata'
-                message={`Metadata for metric with ID "${componentConfig.metricId}" could not be found in the config.`}
+                title='Missing Configuration'
+                message={`Configuration for metric with ID "${componentConfig.metricId}" could not be found in the config.`}
                 severity='warning'
               />
             );
           }
           return (
-            <MetricDisplayWrapper
+            <MetricContainer
               key={key}
               endpoint={endpoint}
               metricId={componentConfig.metricId}
-              title={metricMeta.title}
+              metricConfig={metricConfiguration}
             />
           );
         }
 
-        if (componentConfig.type === "chartDisplay") {
-          const chartMeta = config.chartsMetadata?.find(
+        if (componentConfig.type === "chart") {
+          const chartConfiguration = config.chartsConfiguration?.find(
             (c) => c.id === componentConfig.chartId
           );
-          if (!chartMeta) {
+          if (!chartConfiguration) {
             return (
               <ErrorCard
                 key={key}
-                title='Missing Chart Metadata'
-                message={`Metadata for chart with ID "${componentConfig.chartId}" could not be found in the config.`}
+                title='Missing Chart Configuration'
+                message={`Configuration for chart with ID "${componentConfig.chartId}" could not be found in the config.`}
                 severity='warning'
               />
             );
           }
           return (
-            <ChartDisplayWrapper
+            <ChartContainer
               key={key}
               endpoint={endpoint}
               chartId={componentConfig.chartId}
-              title={chartMeta.title}
-              chartConfig={chartMeta}
+              chartConfig={chartConfiguration}
             />
           );
         }

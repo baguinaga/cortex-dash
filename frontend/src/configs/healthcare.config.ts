@@ -1,5 +1,12 @@
-import { DashboardConfig, HealthcareApiEndpoints } from "@/lib/types";
+import { DashboardConfig } from "@/lib/types";
 import { generateDashboardTheme } from "@/lib/theme-generator";
+
+interface HealthcareApiEndpoints extends Record<string, string> {
+  metrics: string;
+  dailyTrends: string;
+  patientTable: string;
+  atRiskAlerts: string;
+}
 
 const apiEndpoints: HealthcareApiEndpoints = {
   metrics: "/api/healthcare/metrics",
@@ -19,10 +26,10 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       gridCols: 4,
       endpoint: apiEndpoints.metrics,
       components: [
-        { type: "metricDisplay", metricId: "total-patients" },
-        { type: "metricDisplay", metricId: "avg-wait-time" },
-        { type: "metricDisplay", metricId: "er-visits" },
-        { type: "metricDisplay", metricId: "patient-satisfaction" },
+        { type: "metric", metricId: "total-patients" },
+        { type: "metric", metricId: "avg-wait-time" },
+        { type: "metric", metricId: "er-visits" },
+        { type: "metric", metricId: "patient-satisfaction" },
       ],
     },
     {
@@ -31,7 +38,7 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       gridCols: 1,
       components: [
         {
-          type: "chartDisplay",
+          type: "chart",
           chartId: "daily-visits",
           endpoint: apiEndpoints.dailyTrends,
         },
@@ -43,7 +50,7 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       gridCols: 1,
       components: [
         {
-          type: "tableDisplay",
+          type: "table",
           tableId: "patient-details",
           endpoint: apiEndpoints.patientTable,
         },
@@ -62,18 +69,16 @@ export const dashboardConfig: DashboardConfig<HealthcareApiEndpoints> = {
       ],
     },
   ],
-  metricsMetadata: [
-    { id: "total-patients", title: "Total Patients", value: "1,234", unit: "" },
-    { id: "avg-wait-time", title: "Avg. Wait Time", value: "25", unit: "min" },
-    { id: "er-visits", title: "ER Visits Today", value: "320", unit: "" },
+  metricsConfiguration: [
+    { id: "total-patients", title: "Total Patients" },
+    { id: "avg-wait-time", title: "Avg. Wait Time" },
+    { id: "er-visits", title: "ER Visits Today" },
     {
       id: "patient-satisfaction",
       title: "Patient Satisfaction",
-      value: "92",
-      unit: "%",
     },
   ],
-  chartsMetadata: [
+  chartsConfiguration: [
     {
       id: "daily-visits",
       title: "Daily Patient Visits",

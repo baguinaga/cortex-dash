@@ -1,5 +1,14 @@
-import { DashboardConfig, PharmacyApiEndpoints } from "@/lib/types";
+import { DashboardConfig } from "@/lib/types";
 import { generateDashboardTheme } from "@/lib/theme-generator";
+
+interface PharmacyApiEndpoints extends Record<string, string> {
+  kpis: string;
+  revenue: string;
+  drugsRevenue: string;
+  recentScripts: string;
+  notifications: string;
+  monthlyTrends: string;
+}
 
 const apiEndpoints: PharmacyApiEndpoints = {
   kpis: "/api/pharmacy/kpis",
@@ -21,10 +30,15 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
       gridCols: 2,
       endpoint: apiEndpoints.kpis,
       components: [
-        { type: "metricDisplay", metricId: "totalRevenue" },
-        { type: "metricDisplay", metricId: "avgTurnAroundTime" },
-        { type: "metricDisplay", metricId: "scriptsFilled" },
-        { type: "metricDisplay", metricId: "patientAdherencePDC" },
+        { type: "metric", metricId: "total-revenue" },
+        { type: "metric", metricId: "avg-turnaround-time" },
+        { type: "metric", metricId: "scripts-filled" },
+        { type: "metric", metricId: "patient-adherence-pdc" },
+        {
+          type: "chart",
+          chartId: "monthly-trends",
+          endpoint: apiEndpoints.monthlyTrends,
+        },
       ],
     },
     {
@@ -33,7 +47,7 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
       gridCols: 1,
       components: [
         {
-          type: "tableDisplay",
+          type: "table",
           tableId: "recent-scripts",
           endpoint: apiEndpoints.recentScripts,
         },
@@ -50,40 +64,36 @@ export const dashboardConfig: DashboardConfig<PharmacyApiEndpoints> = {
       gridCols: 2,
       components: [
         {
-          type: "chartDisplay",
+          type: "chart",
           chartId: "revenue-trends",
           endpoint: apiEndpoints.revenue,
         },
         {
-          type: "chartDisplay",
+          type: "chart",
           chartId: "monthly-trends",
           endpoint: apiEndpoints.monthlyTrends,
         },
         {
-          type: "chartDisplay",
+          type: "chart",
           chartId: "top-drugs",
           endpoint: apiEndpoints.drugsRevenue,
         },
       ],
     },
   ],
-  metricsMetadata: [
-    { id: "totalRevenue", title: "Total Revenue", value: "", unit: "USD" },
+  metricsConfiguration: [
+    { id: "total-revenue", title: "Total Revenue" },
     {
-      id: "avgTurnAroundTime",
+      id: "avg-turnaround-time",
       title: "Avg. Turnaround",
-      value: "",
-      unit: "hours",
     },
-    { id: "scriptsFilled", title: "Scripts Filled", value: "", unit: "" },
+    { id: "scripts-filled", title: "Scripts Filled" },
     {
-      id: "patientAdherencePDC",
+      id: "patient-adherence-pdc",
       title: "Patient Adherence (PDC)",
-      value: "",
-      unit: "%",
     },
   ],
-  chartsMetadata: [
+  chartsConfiguration: [
     {
       id: "revenue-trends",
       title: "Weekly Revenue",

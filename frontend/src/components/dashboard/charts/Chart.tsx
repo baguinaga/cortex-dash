@@ -5,44 +5,27 @@ import {
   BarChart,
   AreaChart,
 } from "@/components/dashboard/visualizations";
-import { ChartConfig } from "@/lib/types";
+import { CommonChartProps } from "@/lib/types";
 
-interface ChartDisplayProps {
-  title: string;
+interface ChartProps {
   data: Array<{ [key: string]: string | number }>;
-  chartConfig: ChartConfig;
+  title: string;
+  xAxisKey: string;
+  dataKey: string;
+  type: "bar" | "line" | "area";
 }
 
-export default function ChartDisplay({
-  title,
+export default function Chart({
   data,
-  chartConfig,
-}: ChartDisplayProps) {
-  if (!data || data.length === 0) {
-    return (
-      <ErrorCard
-        title='No Data Available'
-        message={`No data available for ${title}`}
-        severity='info'
-      />
-    );
-  }
-
-  const samplePoint = data[0];
-  if (!samplePoint[chartConfig.xAxisKey] || !samplePoint[chartConfig.dataKey]) {
-    return (
-      <ErrorCard
-        title='Invalid Data Format'
-        message={`Chart data is missing required keys: ${chartConfig.xAxisKey} or ${chartConfig.dataKey}`}
-        severity='error'
-      />
-    );
-  }
-
+  title,
+  xAxisKey,
+  dataKey,
+  type,
+}: ChartProps) {
   const renderChart = () => {
-    const commonProps = { data, config: chartConfig };
+    const commonProps: CommonChartProps = { data, xAxisKey, dataKey };
 
-    switch (chartConfig.type) {
+    switch (type) {
       case "line":
         return <LineChart {...commonProps} />;
       case "bar":
@@ -53,7 +36,7 @@ export default function ChartDisplay({
         return (
           <ErrorCard
             title='Unsupported Chart Type'
-            message={`Chart type "${chartConfig.type}" is not supported`}
+            message={`Chart type "${type}" is not supported`}
             severity='error'
           />
         );

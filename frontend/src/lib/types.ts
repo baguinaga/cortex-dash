@@ -1,13 +1,9 @@
-export interface Metric {
+export interface MetricConfiguration {
   id: string;
   title: string;
-  value: string;
-  unit?: string;
-  description?: string;
-  icon?: React.ElementType;
 }
 
-export interface ChartConfig {
+export interface ChartConfiguration {
   id: string;
   title: string;
   description?: string;
@@ -16,46 +12,56 @@ export interface ChartConfig {
   xAxisKey: string;
 }
 
-export interface TooltipPayloadItem {
-  name: string;
-  value: string | number;
-  color: string;
+export interface CommonChartProps {
+  data: Array<{ [key: string]: string | number }>;
+  xAxisKey: string;
   dataKey: string;
-  payload: Record<string, unknown>;
-}
-
-export interface CustomTooltipProps {
-  active?: boolean;
-  payload?: TooltipPayloadItem[];
-  label?: string | number;
-}
-
-interface ColumnRenderProps<TData> {
-  id: string;
-  accessorKey: keyof TData | string;
 }
 
 export interface TableColumnDefinition<TData, TValue = unknown> {
   accessorKey: keyof TData | string;
   header:
     | string
-    | (({ column }: { column: ColumnRenderProps<TData> }) => React.ReactNode);
+    | (({
+        column,
+      }: {
+        column: {
+          id: string;
+          accessorKey: keyof TData | string;
+        };
+      }) => React.ReactNode);
   cell?: (props: {
     row: { original: TData };
     getValue: () => TValue;
   }) => React.ReactNode;
 }
 
-export interface DashboardSection {
+export interface DashboardSection<TEndpoints = Record<string, string>> {
   id: string;
   title?: string;
   gridCols?: number;
-  endpoint?: string;
+  endpoint?: TEndpoints[keyof TEndpoints];
   components: Array<
-    | { type: "metricDisplay"; metricId: string; endpoint?: string }
-    | { type: "chartDisplay"; chartId: string; endpoint?: string }
-    | { type: "tableDisplay"; tableId: string; endpoint?: string }
-    | { type: "alertPanel"; alertId: string; endpoint?: string }
+    | {
+        type: "metric";
+        metricId: string;
+        endpoint?: TEndpoints[keyof TEndpoints];
+      }
+    | {
+        type: "chart";
+        chartId: string;
+        endpoint?: TEndpoints[keyof TEndpoints];
+      }
+    | {
+        type: "table";
+        tableId: string;
+        endpoint?: TEndpoints[keyof TEndpoints];
+      }
+    | {
+        type: "alertPanel";
+        alertId: string;
+        endpoint?: TEndpoints[keyof TEndpoints];
+      }
   >;
 }
 
@@ -83,22 +89,7 @@ export interface ThemeColors {
   "--secondary-foreground"?: string;
 }
 
-export interface HealthcareApiEndpoints {
-  metrics: string;
-  dailyTrends: string;
-  patientTable: string;
-  atRiskAlerts: string;
-}
-export interface PharmacyApiEndpoints {
-  kpis: string;
-  revenue: string;
-  drugsRevenue: string;
-  recentScripts: string;
-  notifications: string;
-  monthlyTrends: string;
-}
-
-export interface DashboardConfig<TEndpoints> {
+export interface DashboardConfig<TEndpoints extends Record<string, string>> {
   id: string;
   title: string;
   description?: string;
@@ -106,10 +97,10 @@ export interface DashboardConfig<TEndpoints> {
 
   apiEndpoints: TEndpoints;
 
-  layout: DashboardSection[];
+  layout: DashboardSection<TEndpoints>[];
 
-  metricsMetadata?: Metric[];
-  chartsMetadata?: ChartConfig[];
+  metricsConfiguration?: MetricConfiguration[];
+  chartsConfiguration?: ChartConfiguration[];
   mainTable?: {
     id: string;
     columns: TableColumnDefinition<unknown>[];
