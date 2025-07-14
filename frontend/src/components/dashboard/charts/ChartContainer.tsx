@@ -72,7 +72,7 @@ export default function ChartContainer({
     };
 
     fetchData();
-  });
+  }, [endpoint, chartId, xAxisKey, dataKey, type]);
 
   if (loading) {
     return <LoadingCard />;

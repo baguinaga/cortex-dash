@@ -62,7 +62,7 @@ export default function MetricContainer({
     };
 
     fetchData();
-  });
+  }, [endpoint, metricId]);
 
   if (loading) {
     return <LoadingCard />;
