@@ -1,17 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ChartDisplay from "./Chart";
+import Chart from "./Chart";
 import { LoadingCard } from "@/components/ui/LoadingCard";
 import { ErrorCard } from "@/components/ui/ErrorCard";
 import { getApiUrl } from "@/lib/api";
-import { ChartConfig } from "@/lib/types";
+import { ChartConfiguration } from "@/lib/types";
 
-interface ChartDisplayWrapperProps {
+interface ChartContainerProps {
   chartId: string;
   endpoint: string;
-  title: string;
-  chartConfig: ChartConfig;
+  chartConfig: ChartConfiguration;
 }
 
 interface ChartDataPoint {
@@ -20,12 +19,12 @@ interface ChartDataPoint {
 
 type ChartApiResponse = ChartDataPoint[];
 
-export default function ChartDisplayWrapper({
+export default function ChartContainer({
   chartId,
   endpoint,
-  title,
   chartConfig,
-}: ChartDisplayWrapperProps) {
+}: ChartContainerProps) {
+  const { title, xAxisKey, dataKey, type } = chartConfig;
   const [data, setData] = useState<ChartDataPoint[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,17 +48,15 @@ export default function ChartDisplayWrapper({
         }
 
         if (json.length === 0) {
-          throw new Error("No data points available for chart");
+          throw new Error(`No data points available for ${chartId}`);
         }
 
         const samplePoint = json[0];
-        if (!samplePoint[chartConfig.xAxisKey]) {
-          throw new Error(
-            `Missing required X-axis key: ${chartConfig.xAxisKey}`
-          );
+        if (!samplePoint[xAxisKey]) {
+          throw new Error(`Missing required X-axis key: ${xAxisKey}`);
         }
-        if (!samplePoint[chartConfig.dataKey]) {
-          throw new Error(`Missing required data key: ${chartConfig.dataKey}`);
+        if (!samplePoint[dataKey]) {
+          throw new Error(`Missing required data key: ${dataKey}`);
         }
 
         setData(json);
@@ -75,7 +72,7 @@ export default function ChartDisplayWrapper({
     };
 
     fetchData();
-  }, [endpoint, chartId]);
+  }, [endpoint, chartId, xAxisKey, dataKey, type]);
 
   if (loading) {
     return <LoadingCard />;
@@ -92,7 +89,15 @@ export default function ChartDisplayWrapper({
   }
 
   if (data) {
-    return <ChartDisplay title={title} data={data} chartConfig={chartConfig} />;
+    return (
+      <Chart
+        data={data}
+        title={title}
+        xAxisKey={xAxisKey}
+        dataKey={dataKey}
+        type={type}
+      />
+    );
   }
 
   return null;

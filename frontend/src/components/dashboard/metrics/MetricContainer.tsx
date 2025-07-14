@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import MetricDisplay from "./Metric";
+import Metric from "./Metric";
 import { LoadingCard } from "@/components/ui/LoadingCard";
 import { ErrorCard } from "@/components/ui/ErrorCard";
 import { getApiUrl } from "@/lib/api";
+import { MetricConfiguration } from "@/lib/types";
 
-interface MetricDisplayWrapperProps {
+interface MetricContainerProps {
   metricId: string;
   endpoint: string;
-  title: string;
+  metricConfig: MetricConfiguration;
 }
 
 interface MetricData {
@@ -21,11 +22,12 @@ interface ApiResponse {
   [key: string]: MetricData;
 }
 
-export default function MetricDisplayWrapper({
+export default function MetricContainer({
   metricId,
   endpoint,
-  title,
-}: MetricDisplayWrapperProps) {
+  metricConfig,
+}: MetricContainerProps) {
+  const { title } = metricConfig;
   const [data, setData] = useState<MetricData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -77,7 +79,7 @@ export default function MetricDisplayWrapper({
   }
 
   if (data) {
-    return <MetricDisplay title={title} value={data.value} unit={data.unit} />;
+    return <Metric title={title} value={data.value} unit={data.unit} />;
   }
 
   return null;

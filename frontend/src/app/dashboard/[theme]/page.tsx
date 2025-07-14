@@ -17,7 +17,7 @@ interface DashboardPageProps {
  * @returns Promise<DashboardConfig> - The validated configuration
  * @throws Calls notFound() if config cannot be loaded or is invalid
  */
-async function getDashboardConfig<TEndpoints>(
+async function getDashboardConfig<TEndpoints extends Record<string, string>>(
   theme: string
 ): Promise<DashboardConfig<TEndpoints>> {
   if (!theme || typeof theme !== "string" || theme.trim() === "") {
@@ -61,10 +61,9 @@ async function getDashboardConfig<TEndpoints>(
   }
 }
 
-export default async function DashboardPage<TEndpoints>({
-  params,
-  searchParams,
-}: DashboardPageProps) {
+export default async function DashboardPage<
+  TEndpoints extends Record<string, string>
+>({ params, searchParams }: DashboardPageProps) {
   let theme: string;
   try {
     const resolvedParams = await params;

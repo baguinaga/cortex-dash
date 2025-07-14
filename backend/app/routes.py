@@ -63,10 +63,10 @@ MOCK_AT_RISK_ALERTS = [
 # ----- Pharmacy Mock Data -----
 
 MOCK_PHARMACY_KPIS = {
-    "totalRevenue": {"value": 750000, "unit": "USD"},
-    "avgTurnAroundTime": {"value": 2.5, "unit": "hours"},
-    "patientAdherencePDC": {"value": 89, "unit": "%"},
-    "scriptsFilled": {"value": 1240, "unit": ""}
+    "total-revenue": {"value": 750000, "unit": "USD"},
+    "avg-turnaround-time": {"value": 2.5, "unit": "hours"},
+    "patient-adherence-pdc": {"value": 89, "unit": "%"},
+    "scripts-filled": {"value": 1240, "unit": ""}
 }
 
 MOCK_REVENUE_TRENDS = [

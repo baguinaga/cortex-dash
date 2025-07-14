@@ -7,8 +7,8 @@ export const CHART_STYLES = {
     opacity: 0.2,
   },
   axis: {
-    tick: { fontSize: 12, fill: "black" },
-    axisLine: { stroke: "black" },
-    tickLine: { stroke: "black" },
+    tick: { fontSize: 12, fill: "var(--color-black)" },
+    axisLine: { stroke: "var(--color-black)" },
+    tickLine: { stroke: "var(--color-black)" },
   },
 } as const;
