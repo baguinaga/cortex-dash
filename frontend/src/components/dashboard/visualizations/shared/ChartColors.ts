@@ -13,8 +13,8 @@ export const getChartColor = (index: number): string => {
 export const getChartColorByType = (type: "line" | "bar" | "area"): string => {
   const typeColorMap = {
     line: CHART_COLORS[0],
-    bar: CHART_COLORS[1],
-    area: CHART_COLORS[2],
+    area: CHART_COLORS[1],
+    bar: CHART_COLORS[2],
   };
   return typeColorMap[type];
 };
